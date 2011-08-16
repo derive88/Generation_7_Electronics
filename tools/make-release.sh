@@ -89,7 +89,7 @@ sleep 3
 git tag -u 806F3A3E "release-${RELEASE}"
 echo "... done."
 
-echo "All done. Now push the result with \"git push --tags\"."
+echo "All done. Now push the result with \"git push && git push --tags\"."
 
 
 #  This script is free software; you can redistribute it and/or
