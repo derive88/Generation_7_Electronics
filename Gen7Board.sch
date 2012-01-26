@@ -151,6 +151,8 @@ T 25300 42800 5 10 0 1 0 0 1
 footprint=LED3_1
 T 26100 44000 5 10 0 0 0 0 1
 description=green
+T 26100 43600 5 10 0 0 0 0 1
+symversion=0.1
 }
 C 23800 42900 1 0 0 resistor-1.sym
 {
@@ -216,6 +218,8 @@ T 35600 44800 5 10 1 1 180 0 1
 value=20 MHz
 T 35600 44600 5 10 0 1 0 0 1
 footprint=CRYSTAL_AS
+T 35400 43900 5 10 0 0 180 0 1
+symversion=0.1
 }
 C 34700 43900 1 270 0 capacitor-1.sym
 {
@@ -285,6 +289,8 @@ T 41300 38400 5 10 0 1 0 0 1
 footprint=LED3_1
 T 42500 37600 5 10 0 0 270 0 1
 description=yellow
+T 42100 37600 5 10 0 0 270 0 1
+symversion=0.1
 }
 C 41400 36500 1 270 0 resistor-1.sym
 {
@@ -307,7 +313,9 @@ refdes=LED4
 T 33800 36400 5 10 0 1 0 0 1
 footprint=LED3_1
 T 34400 35600 5 10 0 0 270 0 1
-device=green
+description=green
+T 34600 35600 5 10 0 0 270 0 1
+symversion=0.1
 }
 C 33900 37900 1 270 0 resistor-1.sym
 {
@@ -548,6 +556,8 @@ T 25300 39100 5 10 0 1 0 0 1
 footprint=LED3_1
 T 26100 40300 5 10 0 0 0 0 1
 description=green
+T 26100 39900 5 10 0 0 0 0 1
+symversion=0.1
 }
 C 23800 39200 1 0 0 resistor-1.sym
 {
