@@ -1,5 +1,5 @@
 # release: pcb 20100929
-# date:    Tue Feb 14 21:12:03 2012
+# date:    Tue Feb 14 23:45:05 2012
 # user:    mah (Markus Hitter,,,)
 # host:    piccard
 
@@ -1363,7 +1363,7 @@ Element["" "RCY3mm5" "C2" "100_uF" 598100 457500 -7500 5000 0 100 ""]
 
 	)
 
-Element["hidename" "100-4-1" "E_MOT" "unknown" 257500 155000 -8000 -5000 2 100 ""]
+Element["hidename" "100-4-1" "X_MOT" "unknown" 257500 155000 -8000 -5000 2 100 ""]
 (
 	Pin[0 0 8000 2000 8500 4000 "1" "1" "edge2"]
 	Pin[-10000 0 8000 2000 8500 4000 "2" "2" "edge2"]
@@ -1845,35 +1845,7 @@ Element["" "DIP40_1" "U1" "unknown" 347500 370000 -8000 -50000 3 100 ""]
 
 	)
 
-Element["hidename" "100-4-1" "X_MOT" "unknown" 535000 155000 -8000 -5000 2 100 ""]
-(
-	Pin[0 0 8000 2000 8500 4000 "1" "1" "edge2"]
-	Pin[-10000 0 8000 2000 8500 4000 "2" "2" "edge2"]
-	Pin[-20000 0 8000 2000 8500 4000 "3" "3" "edge2"]
-	Pin[-30000 0 8000 2000 8500 4000 "4" "4" "edge2"]
-	ElementLine [-35000 7500 5000 7500 600]
-	ElementLine [5000 -12500 5000 12500 1000]
-	ElementLine [-35000 -12500 -35000 12500 1000]
-	ElementLine [-35000 12500 5000 12500 1000]
-	ElementLine [-35000 -12500 5000 -12500 1000]
-
-	)
-
-Element["hidename" "100-4-1" "Y_MOT" "unknown" 442500 155000 -8000 -5000 2 100 ""]
-(
-	Pin[0 0 8000 2000 8500 4000 "1" "1" "edge2"]
-	Pin[-10000 0 8000 2000 8500 4000 "2" "2" "edge2"]
-	Pin[-20000 0 8000 2000 8500 4000 "3" "3" "edge2"]
-	Pin[-30000 0 8000 2000 8500 4000 "4" "4" "edge2"]
-	ElementLine [-35000 7500 5000 7500 600]
-	ElementLine [5000 -12500 5000 12500 1000]
-	ElementLine [-35000 -12500 -35000 12500 1000]
-	ElementLine [-35000 12500 5000 12500 1000]
-	ElementLine [-35000 -12500 5000 -12500 1000]
-
-	)
-
-Element["hidename" "100-4-1" "Z_MOT" "unknown" 350000 155000 -8000 -5000 2 100 ""]
+Element["hidename" "100-4-1" "E_MOT" "unknown" 535000 155000 -8000 -5000 2 100 ""]
 (
 	Pin[0 0 8000 2000 8500 4000 "1" "1" "edge2"]
 	Pin[-10000 0 8000 2000 8500 4000 "2" "2" "edge2"]
@@ -1901,6 +1873,34 @@ Element["" "MJTP1230-1" "RESET" "unknown" 463090 475000 -22500 5000 0 100 ""]
 	ElementArc [-12796 -8859 3938 3938 90 90 1000]
 	ElementArc [-12795 -8858 3937 3937 0 90 1000]
 	ElementArc [-12795 -8858 3937 3937 270 90 1000]
+
+	)
+
+Element["hidename" "100-4-1" "Y_MOT" "unknown" 350000 155000 -8000 -5000 2 100 ""]
+(
+	Pin[0 0 8000 2000 8500 4000 "1" "1" "edge2"]
+	Pin[-10000 0 8000 2000 8500 4000 "2" "2" "edge2"]
+	Pin[-20000 0 8000 2000 8500 4000 "3" "3" "edge2"]
+	Pin[-30000 0 8000 2000 8500 4000 "4" "4" "edge2"]
+	ElementLine [-35000 7500 5000 7500 600]
+	ElementLine [5000 -12500 5000 12500 1000]
+	ElementLine [-35000 -12500 -35000 12500 1000]
+	ElementLine [-35000 12500 5000 12500 1000]
+	ElementLine [-35000 -12500 5000 -12500 1000]
+
+	)
+
+Element["hidename" "100-4-1" "Z_MOT" "unknown" 442500 155000 -8000 -5000 2 100 ""]
+(
+	Pin[0 0 8000 2000 8500 4000 "1" "1" "edge2"]
+	Pin[-10000 0 8000 2000 8500 4000 "2" "2" "edge2"]
+	Pin[-20000 0 8000 2000 8500 4000 "3" "3" "edge2"]
+	Pin[-30000 0 8000 2000 8500 4000 "4" "4" "edge2"]
+	ElementLine [-35000 7500 5000 7500 600]
+	ElementLine [5000 -12500 5000 12500 1000]
+	ElementLine [-35000 -12500 -35000 12500 1000]
+	ElementLine [-35000 12500 5000 12500 1000]
+	ElementLine [-35000 -12500 5000 -12500 1000]
 
 	)
 Layer(1 "solder")
@@ -2388,16 +2388,16 @@ Layer(7 "unused")
 )
 Layer(8 "unused")
 (
-	Text[415000 131000 0 143 "Y-Axis" ""]
+	Text[502500 131000 0 143 "Extruder" ""]
 	Text[150000 300000 3 121 "(c) 2011 Traumflug" ""]
 	Text[572500 470000 1 143 "Standby" ""]
 	Text[566500 499000 0 143 "+5 V" ""]
-	Text[227500 131000 0 143 "Extruder" ""]
-	Text[322500 131000 0 143 "Z-Axis" ""]
+	Text[230000 131000 0 143 "X-Axis" ""]
+	Text[415000 131000 0 143 "Z-Axis" ""]
 	Text[135000 152500 3 121 "Creative Commons BY-NC-SA 3.0 Licence" ""]
 	Text[142500 300000 3 121 "(c) 2010 Traumflug, Jacky2k" ""]
 	Text[135000 300000 3 121 "http://reprap.org/wiki/Generation_7_Electronics" ""]
-	Text[507500 131000 0 143 "X-Axis" ""]
+	Text[322500 131000 0 143 "Y-Axis" ""]
 )
 NetList()
 (
@@ -2691,23 +2691,23 @@ NetList()
 	)
 	Net("unnamed_net37" "(unknown)")
 	(
+		Connect("E_MOT-1")
 		Connect("U2-11")
-		Connect("X_MOT-1")
 	)
 	Net("unnamed_net38" "(unknown)")
 	(
+		Connect("E_MOT-2")
 		Connect("U2-12")
-		Connect("X_MOT-2")
 	)
 	Net("unnamed_net39" "(unknown)")
 	(
+		Connect("E_MOT-3")
 		Connect("U2-13")
-		Connect("X_MOT-3")
 	)
 	Net("unnamed_net40" "(unknown)")
 	(
+		Connect("E_MOT-4")
 		Connect("U2-14")
-		Connect("X_MOT-4")
 	)
 	Net("unnamed_net41" "(unknown)")
 	(
@@ -2734,22 +2734,22 @@ NetList()
 	Net("unnamed_net45" "(unknown)")
 	(
 		Connect("U3-11")
-		Connect("Y_MOT-1")
+		Connect("Z_MOT-1")
 	)
 	Net("unnamed_net46" "(unknown)")
 	(
 		Connect("U3-12")
-		Connect("Y_MOT-2")
+		Connect("Z_MOT-2")
 	)
 	Net("unnamed_net47" "(unknown)")
 	(
 		Connect("U3-13")
-		Connect("Y_MOT-3")
+		Connect("Z_MOT-3")
 	)
 	Net("unnamed_net48" "(unknown)")
 	(
 		Connect("U3-14")
-		Connect("Y_MOT-4")
+		Connect("Z_MOT-4")
 	)
 	Net("unnamed_net49" "(unknown)")
 	(
@@ -2776,22 +2776,22 @@ NetList()
 	Net("unnamed_net53" "(unknown)")
 	(
 		Connect("U4-11")
-		Connect("Z_MOT-1")
+		Connect("Y_MOT-1")
 	)
 	Net("unnamed_net54" "(unknown)")
 	(
 		Connect("U4-12")
-		Connect("Z_MOT-2")
+		Connect("Y_MOT-2")
 	)
 	Net("unnamed_net55" "(unknown)")
 	(
 		Connect("U4-13")
-		Connect("Z_MOT-3")
+		Connect("Y_MOT-3")
 	)
 	Net("unnamed_net56" "(unknown)")
 	(
 		Connect("U4-14")
-		Connect("Z_MOT-4")
+		Connect("Y_MOT-4")
 	)
 	Net("unnamed_net57" "(unknown)")
 	(
@@ -2817,23 +2817,23 @@ NetList()
 	)
 	Net("unnamed_net61" "(unknown)")
 	(
-		Connect("E_MOT-1")
 		Connect("U5-11")
+		Connect("X_MOT-1")
 	)
 	Net("unnamed_net62" "(unknown)")
 	(
-		Connect("E_MOT-2")
 		Connect("U5-12")
+		Connect("X_MOT-2")
 	)
 	Net("unnamed_net63" "(unknown)")
 	(
-		Connect("E_MOT-3")
 		Connect("U5-13")
+		Connect("X_MOT-3")
 	)
 	Net("unnamed_net64" "(unknown)")
 	(
-		Connect("E_MOT-4")
 		Connect("U5-14")
+		Connect("X_MOT-4")
 	)
 	Net("unnamed_net65" "(unknown)")
 	(
