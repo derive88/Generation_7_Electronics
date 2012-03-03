@@ -161,7 +161,7 @@ device=RESISTOR
 T 24000 43200 5 10 1 1 0 0 1
 refdes=R14
 T 24000 42800 5 10 1 1 0 0 1
-value=560
+value=560R
 T 23800 42900 5 10 0 0 0 0 1
 footprint=ACY300_1
 }
@@ -563,7 +563,7 @@ device=RESISTOR
 T 24000 39500 5 10 1 1 0 0 1
 refdes=R22
 T 24000 39100 5 10 1 1 0 0 1
-value=560
+value=560R
 T 23800 39200 5 10 0 1 0 0 1
 footprint=ACY300_1
 }
