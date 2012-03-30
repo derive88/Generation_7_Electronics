@@ -1,4 +1,4 @@
-v 20100214 2
+v 20110115 2
 P 700 6100 400 6100 1 0 1
 {
 T 750 6150 3 8 1 1 0 1 1
@@ -114,7 +114,7 @@ pinlabel=SCK
 P 400 3700 700 3700 1 0 0
 {
 T 750 3700 3 8 1 1 0 1 1
-pinlabel=RESET
+pinlabel=Reset
 T 650 3800 5 8 1 1 0 7 1
 pinnumber=9
 T 650 3600 5 8 0 0 0 7 1
@@ -123,7 +123,7 @@ pinseq=9
 P 400 3400 700 3400 1 0 0
 {
 T 750 3400 3 8 1 1 0 1 1
-pinlabel=VCC
+pinlabel=Vcc
 T 650 3500 5 8 1 1 0 7 1
 pinnumber=10
 T 650 3300 5 8 0 0 0 7 1
@@ -324,7 +324,7 @@ pinlabel=TOSC1
 P 2700 3100 3000 3100 1 0 1
 {
 T 2650 3100 3 8 1 1 0 7 1
-pinlabel=AVCC
+pinlabel=AVcc
 T 2750 3200 5 8 1 1 0 1 1
 pinnumber=30
 T 2750 3000 5 8 0 0 0 1 1
@@ -342,7 +342,7 @@ pinseq=31
 P 2700 3700 3000 3700 1 0 1
 {
 T 2650 3700 3 8 1 1 0 7 1
-pinlabel=AREF
+pinlabel=Aref
 T 2750 3800 5 8 1 1 0 1 1
 pinnumber=32
 T 2750 3600 5 8 0 0 0 1 1
