@@ -27,6 +27,7 @@ Element["" "Extension Board for Generation 7 Electronics" "" "ExtensionBoard" 55
 	Pin[ -30000 140000 8000 2000 8500 4000 "25" "25" "edge2"]
 	Pin[ -20000 140000 8000 2000 8500 4000 "26" "26" "edge2"]
 	Pin[ -10000 140000 8000 2000 8500 4000 "27" "27" "edge2"]
+	Pin[      0 140000 8000 2000 8500 4000 "28" "28" "edge2"]
 
 
 	# Box Top
@@ -36,9 +37,9 @@ Element["" "Extension Board for Generation 7 Electronics" "" "ExtensionBoard" 55
 	ElementLine [-135000  5000 -135000 -5000 1000]
 
 	# Box Bottom
-	ElementLine [-135000 135000   -5000 135000 1000]
-	ElementLine [  -5000 135000   -5000 145000 1000]
-	ElementLine [  -5000 145000 -135000 145000 1000]
+	ElementLine [-135000 135000    5000 135000 1000]
+	ElementLine [   5000 135000    5000 145000 1000]
+	ElementLine [   5000 145000 -135000 145000 1000]
 	ElementLine [-135000 145000 -135000 135000 1000]
 
 	# Outline
