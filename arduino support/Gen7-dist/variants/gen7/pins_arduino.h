@@ -1,8 +1,9 @@
 /*
-  pins_arduino.c - pin definitions for the Arduino board
-  Part of Arduino / Wiring Lite
+  pins_arduino.h - Pin definition functions for Arduino
+  Modified to meet the ATmega644, ATmega644P and ATmega1284P.
 
-  Copyright (c) 2005 David A. Mellis
+  Copyright (c) 2007 David A. Mellis
+  Copyright (c) 2012 Markus "Traumflug" Hitter <mah@jump-ing.de>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -18,16 +19,52 @@
   Public License along with this library; if not, write to the
   Free Software Foundation, Inc., 59 Temple Place, Suite 330,
   Boston, MA  02111-1307  USA
-
-  $Id: pins_arduino.c 254 2007-04-20 23:17:38Z mellis $
 */
 
-#include <avr/io.h>
-#include "wiring_private.h"
-#include "pins_arduino.h"
+/*
+  It should be noted the Gen7 board doesn't really have all those I/O pins,
+  most of them are hardwired on the base board already. So this pin layout
+  matches that of the Sanguino board, like the previous versions.
+*/
 
-// On the Sanguino board, digital pins are also used
-// for the analog output (software PWM).  Analog input
+#ifndef Pins_Arduino_h
+#define Pins_Arduino_h
+
+#include <avr/pgmspace.h>
+
+#define NUM_DIGITAL_PINS            32
+#define NUM_ANALOG_INPUTS           8
+#define analogInputToDigitalPin(p)  ((p < 8) ? (p) + 24 : -1)
+
+#define digitalPinHasPWM(p)         ((p) == 3 || (p) == 4 || (p) == 12 || (p) == 13 || (p) == 14 || (p) == 15)
+
+static const uint8_t SS   = 4;
+static const uint8_t MOSI = 5;
+static const uint8_t MISO = 6;
+static const uint8_t SCK  = 7;
+
+static const uint8_t SDA = 17;
+static const uint8_t SCL = 16;
+static const uint8_t LED_BUILTIN = -1;
+
+static const uint8_t A0 = 24;
+static const uint8_t A1 = 25;
+static const uint8_t A2 = 26;
+static const uint8_t A3 = 27;
+static const uint8_t A4 = 28;
+static const uint8_t A5 = 29;
+static const uint8_t A6 = 20;
+static const uint8_t A7 = 21;
+
+#define digitalPinToPCICR(p)    (((p) >= 0 && (p) <= 33) ? (&PCICR) : ((uint8_t *)0))
+#define digitalPinToPCICRbit(p) (((p) <= 9) ? 2 : (((p) <= 23) ? 0 : 1))
+#define digitalPinToPCMSK(p)    (((p) <= 9) ? (&PCMSK2) : (((p) <= 23) ? (&PCMSK0) : (((p) <= 33) ? (&PCMSK1) : ((uint8_t *)0))))
+#define digitalPinToPCMSKbit(p) (((p) <= 9) ? (p) : (((p) <= 23) ? ((p) - 10) : ((p) - 24)))
+
+#ifdef ARDUINO_MAIN
+
+// On the Gen7 board, digital pins are also used
+// for the analog output (software PWM). Analog input
 // pins are a separate set.
 
 // ATMEL ATMEGA644P / SANGUINO
@@ -55,26 +92,21 @@
 //  PWM (D 14) PD6 20|        |21  PD7 (D 15) PWM
 //                   +--------+
 //
+// TX1 and RX1 are not available on the ATmega644.
 
-#define PA 1
-#define PB 2
-#define PC 3
-#define PD 4
 
 // these arrays map port names (e.g. port B) to the
 // appropriate addresses for various functions (e.g. reading
 // and writing)
-const uint8_t PROGMEM port_to_mode_PGM[] =
-{
+const uint16_t PROGMEM port_to_mode_PGM[] = {
 	NOT_A_PORT,
-    &DDRA,
+	&DDRA,
 	&DDRB,
 	&DDRC,
 	&DDRD,
 };
 
-const uint8_t PROGMEM port_to_output_PGM[] =
-{
+const uint16_t PROGMEM port_to_output_PGM[] = {
 	NOT_A_PORT,
 	&PORTA,
 	&PORTB,
@@ -82,8 +114,7 @@ const uint8_t PROGMEM port_to_output_PGM[] =
 	&PORTD,
 };
 
-const uint8_t PROGMEM port_to_input_PGM[] =
-{
+const uint16_t PROGMEM port_to_input_PGM[] = {
 	NOT_A_PORT,
 	&PINA,
 	&PINB,
@@ -91,8 +122,7 @@ const uint8_t PROGMEM port_to_input_PGM[] =
 	&PIND,
 };
 
-const uint8_t PROGMEM digital_pin_to_port_PGM[] =
-{
+const uint8_t PROGMEM digital_pin_to_port_PGM[] = {
 	PB, /* 0 */
 	PB,
 	PB,
@@ -115,7 +145,7 @@ const uint8_t PROGMEM digital_pin_to_port_PGM[] =
 	PC,
 	PC,
 	PC,
-   	PC,
+	PC,
 	PC,
 	PA, /* 24 */
 	PA,
@@ -127,8 +157,7 @@ const uint8_t PROGMEM digital_pin_to_port_PGM[] =
 	PA  /* 31 */
 };
 
-const uint8_t PROGMEM digital_pin_to_bit_mask_PGM[] =
-{
+const uint8_t PROGMEM digital_pin_to_bit_mask_PGM[] = {
 	_BV(0), /* 0, port B */
 	_BV(1),
 	_BV(2),
@@ -163,38 +192,44 @@ const uint8_t PROGMEM digital_pin_to_bit_mask_PGM[] =
 	_BV(0)
 };
 
-const uint8_t PROGMEM digital_pin_to_timer_PGM[] =
-{
+const uint8_t PROGMEM digital_pin_to_timer_PGM[] = {
 	NOT_ON_TIMER, 	/* 0  - PB0 */
 	NOT_ON_TIMER, 	/* 1  - PB1 */
 	NOT_ON_TIMER, 	/* 2  - PB2 */
-	TIMER0A,     	/* 3  - PB3 */
-	TIMER0B, 		/* 4  - PB4 */
+	TIMER0A,      	/* 3  - PB3 */
+	TIMER0B,      	/* 4  - PB4 */
 	NOT_ON_TIMER, 	/* 5  - PB5 */
 	NOT_ON_TIMER, 	/* 6  - PB6 */
-	NOT_ON_TIMER,	/* 7  - PB7 */
+	NOT_ON_TIMER, 	/* 7  - PB7 */
 	NOT_ON_TIMER, 	/* 8  - PD0 */
 	NOT_ON_TIMER, 	/* 9  - PD1 */
 	NOT_ON_TIMER, 	/* 10 - PD2 */
 	NOT_ON_TIMER, 	/* 11 - PD3 */
-	TIMER1B,     	/* 12 - PD4 */
-	TIMER1A,     	/* 13 - PD5 */
-	TIMER2B,     	/* 14 - PD6 */
-	TIMER2A,     	/* 15 - PD7 */
+	TIMER1B,      	/* 12 - PD4 */
+	TIMER1A,      	/* 13 - PD5 */
+	TIMER2B,      	/* 14 - PD6 */
+	TIMER2A,      	/* 15 - PD7 */
 	NOT_ON_TIMER, 	/* 16 - PC0 */
-	NOT_ON_TIMER,   /* 17 - PC1 */
-	NOT_ON_TIMER,   /* 18 - PC2 */
-	NOT_ON_TIMER,   /* 19 - PC3 */
-	NOT_ON_TIMER,   /* 20 - PC4 */
-	NOT_ON_TIMER,   /* 21 - PC5 */
-	NOT_ON_TIMER,   /* 22 - PC6 */
-	NOT_ON_TIMER,   /* 23 - PC7 */
-	NOT_ON_TIMER,   /* 24 - PA0 */
-	NOT_ON_TIMER,   /* 25 - PA1 */
-	NOT_ON_TIMER,   /* 26 - PA2 */
-	NOT_ON_TIMER,   /* 27 - PA3 */
-	NOT_ON_TIMER,   /* 28 - PA4 */
-	NOT_ON_TIMER,   /* 29 - PA5 */
-	NOT_ON_TIMER,   /* 30 - PA6 */
-	NOT_ON_TIMER   /* 31 - PA7 */
+	NOT_ON_TIMER, 	/* 17 - PC1 */
+	NOT_ON_TIMER, 	/* 18 - PC2 */
+	NOT_ON_TIMER, 	/* 19 - PC3 */
+	NOT_ON_TIMER, 	/* 20 - PC4 */
+	NOT_ON_TIMER, 	/* 21 - PC5 */
+	NOT_ON_TIMER, 	/* 22 - PC6 */
+	NOT_ON_TIMER, 	/* 23 - PC7 */
+	NOT_ON_TIMER, 	/* 24 - PA0 */
+	NOT_ON_TIMER, 	/* 25 - PA1 */
+	NOT_ON_TIMER, 	/* 26 - PA2 */
+	NOT_ON_TIMER, 	/* 27 - PA3 */
+	NOT_ON_TIMER, 	/* 28 - PA4 */
+	NOT_ON_TIMER, 	/* 29 - PA5 */
+	NOT_ON_TIMER, 	/* 30 - PA6 */
+	NOT_ON_TIMER  	/* 31 - PA7 */
 };
+
+#endif /* ARDUINO_MAIN */
+
+#endif /* Pins_Arduino_h */
+
+
+
