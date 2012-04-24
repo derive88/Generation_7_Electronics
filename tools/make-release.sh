@@ -2,7 +2,7 @@
 
 # Do everything required for making a release of Generation 7 Electronics.
 #
-# Copyright (c) Markus "Traumflug" Hitter 2011
+# Copyright (c) Markus "Traumflug" Hitter 2011, 2012
 
 if [ "$1" = "" -o "$2" != "" ]; then
   echo "usage: $(basename $0) <release-number>"
@@ -82,11 +82,14 @@ echo "... done."
 
 echo "Committing all the release files ..."
 git add --force "${DOC_DIR}"
-git commit -m "Make Release ${RELEASE}."
-echo "... please enter release message - usually starts"
-echo "    with \"New features: ...\" ..."
+git commit -e -m \
+"Make Release ${RELEASE}.
+
+New Features:
+
+ - "
 sleep 3
-git tag -u 806F3A3E "release-${RELEASE}"
+git tag -u 806F3A3E -m "Release ${RELEASE}." "release-${RELEASE}"
 echo "... done."
 
 echo "All done. Now push the result with \"git push && git push --tags\"."
