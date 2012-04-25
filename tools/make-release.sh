@@ -4,92 +4,118 @@
 #
 # Copyright (c) Markus "Traumflug" Hitter 2011, 2012
 
-if [ "$1" = "" -o "$2" != "" ]; then
-  echo "usage: $(basename $0) <release-number>"
-  exit 1
-fi
+PREV_PWD=${PWD}
+trap "cd \"${PREV_PWD}\"" EXIT
+
+IDE_FULL_NAME="Gen7 Arduino IDE Support"
 
 while [ ! -d .git ]; do cd ..; done
 
-RELEASE="$1"
+if [ "$1" = "" -o "$2" = "" -o "$3" != "" ]; then
+  echo "usage: $(basename $0) <release part> <release-number>"
+  echo
+  echo "Where <release part> is one of:"
+  echo "  IDE    <== for ${IDE_FULL_NAME}"
+  for F in *.pcb; do
+    echo "  ${F%.pcb}"
+  done
+  exit 1
+fi
+
+PART="$1"
+RELEASE="$2"
+if [ "${PART}" = "IDE" ]; then
+  PART="${IDE_FULL_NAME}"
+else
+  if [ ! -r "${PART}"*.sch ] || [ ! -r "${PART}"*.pcb ]; then
+    echo "${PART} isn't a releasable electronics design,"
+    echo "either the schematics, the layout, or both are missing."
+    exit 1
+  fi
+fi
+
 BASE_DIR="${PWD}"
 DOC_DIR="${BASE_DIR}/release documents"
 
 echo "Uncommitting old release ..."
-git rm "${DOC_DIR}"/* || exit 1
+for F in "${DOC_DIR}/${PART}"*; do
+  git rm "${F}"  # ignore errors
+done
 echo "... done."
 
-# Reset to a clean state.
-rm -rf "${DOC_DIR}"
-mkdir -p "${DOC_DIR}"
 
-echo "Create Arduino IDE support ..."
-cd "arduino support"
-./make.sh
-mv *.zip "${DOC_DIR}"
-cd "${BASE_DIR}"
-echo "... done."
+if [ "${PART}" = "${IDE_FULL_NAME}" ]; then
 
-echo "Creating release number file ..."
-touch "${DOC_DIR}/this is release-${RELEASE}"
-echo "... done."
-
-echo "Creating schematic PDFs ..."
-for F in *.sch; do
-  PS_DOC="${DOC_DIR}/${F%.sch} Schematic.ps"
-  gschem -p -o "${PS_DOC}" -s "${BASE_DIR}/tools/print.scm" "${F}" >/dev/null
-  cd "${DOC_DIR}"
-  ps2pdf "${PS_DOC}"
-  rm -f "${PS_DOC}"
+  echo "Create ${PART} ${RELEASE} ..."
+  cd "arduino support"
+  ./make.sh
+  for F in *.zip; do
+    mv "${F}" "${DOC_DIR}/${F%.zip} ${RELEASE}.zip"
+  done
   cd "${BASE_DIR}"
-done
-echo "... done."
+  echo "... done."
 
-echo "Creating layout PDFs ..."
-for F in *.pcb; do
-  PS_DOC="${DOC_DIR}/${F%.pcb} Layout.ps"
-  pcb -x ps --align-marks --outline --auto-mirror --media A4 \
-    --psfade 0.6 --scale 1.0 --drill-copper --show-legend \
-    --psfile "${PS_DOC}" "${F}" >/dev/null
-  cd "${DOC_DIR}"
-  ps2pdf "${PS_DOC}"
-  rm -f "${PS_DOC}"
-  cd "${BASE_DIR}"
-done
-echo "... done."
+else  # electronics designs
 
-echo "Creating layout PNGs ..."
-for F in *.pcb; do
-  PNG_DOC="${DOC_DIR}/${F%.pcb} Layout.png"
-  pcb -x png --dpi 300 --only-visible --format PNG \
-    --outfile "${PNG_DOC}" "${F}" >/dev/null
-done
-echo "... done."
+  echo "Creating ${PART} ${RELEASE} schematic PDFs ..."
+  for F in "${PART}"*.sch; do
+    PS_DOC="${DOC_DIR}/${F%.sch} ${RELEASE} Schematic.ps"
+    gschem -p -o "${PS_DOC}" -s "${BASE_DIR}/tools/print.scm" "${F}" >/dev/null
+    cd "${DOC_DIR}"
+    ps2pdf "${PS_DOC}"
+    rm -f "${PS_DOC}"
+    cd "${BASE_DIR}"
+  done
+  echo "... done."
 
-echo "Creating layout Gerbers ..."
-for F in *.pcb; do
-  GERBER_NAME="${F%.pcb}"
-  GERBER_DIRNAME="${GERBER_NAME} Layout Gerbers"
-  mkdir -p "${DOC_DIR}/${GERBER_DIRNAME}"
-  pcb -x gerber --gerberfile "${DOC_DIR}/${GERBER_DIRNAME}/${GERBER_NAME}" \
-    "${F}" >/dev/null
-  cd "${DOC_DIR}"
-  zip -rq "${GERBER_DIRNAME}.zip" "${GERBER_DIRNAME}"
-  rm -rf "${GERBER_DIRNAME}"
-  cd "${BASE_DIR}"
-done
-echo "... done."
+  echo "Creating ${PART} ${RELEASE} layout PDFs ..."
+  for F in "${PART}"*.pcb; do
+    PS_DOC="${DOC_DIR}/${F%.pcb} ${RELEASE} Layout.ps"
+    pcb -x ps --align-marks --outline --auto-mirror --media A4 \
+      --psfade 0.6 --scale 1.0 --drill-copper --show-legend \
+      --psfile "${PS_DOC}" "${F}" >/dev/null
+    cd "${DOC_DIR}"
+    ps2pdf "${PS_DOC}"
+    rm -f "${PS_DOC}"
+    cd "${BASE_DIR}"
+  done
+  echo "... done."
+
+  echo "Creating ${PART} ${RELEASE} layout PNGs ..."
+  for F in "${PART}"*.pcb; do
+    PNG_DOC="${DOC_DIR}/${F%.pcb} ${RELEASE} Layout.png"
+    pcb -x png --dpi 300 --only-visible --format PNG \
+      --outfile "${PNG_DOC}" "${F}" >/dev/null
+  done
+  echo "... done."
+
+  echo "Creating ${PART} ${RELEASE} layout Gerbers ..."
+  for F in "${PART}"*.pcb; do
+    GERBER_NAME="${F%.pcb} ${RELEASE}"
+    GERBER_DIRNAME="${GERBER_NAME} Layout Gerbers"
+    mkdir -p "${DOC_DIR}/${GERBER_DIRNAME}"
+    pcb -x gerber --gerberfile "${DOC_DIR}/${GERBER_DIRNAME}/${GERBER_NAME}" \
+      "${F}" >/dev/null
+    cd "${DOC_DIR}"
+    zip -rq "${GERBER_DIRNAME}.zip" "${GERBER_DIRNAME}"
+    rm -rf "${GERBER_DIRNAME}"
+    cd "${BASE_DIR}"
+  done
+  echo "... done."
+
+fi
 
 echo "Committing all the release files ..."
 git add --force "${DOC_DIR}"
 git commit -e -m \
-"Make Release ${RELEASE}.
+"Make ${PART} ${RELEASE} release.
 
 New Features:
 
  - "
 sleep 3
-git tag -u 806F3A3E -m "Release ${RELEASE}." "release-${RELEASE}"
+git tag -u 806F3A3E -m "${PART} ${RELEASE} release." \
+  $(echo "${PART}" | tr ' ' '-')"-${RELEASE}"
 echo "... done."
 
 echo "All done. Now push the result with \"git push && git push --tags\"."
