@@ -2474,7 +2474,7 @@ Layer(3 "Vcc-sldr")
 )
 Layer(4 "Text-sldr")
 (
-	Text[152500 472500 3 297 "RepRap       Gen7 v1.3" "clearline,auto"]
+	Text[152500 472500 3 297 "RepRap       Gen7 v1.4" "clearline,auto"]
 )
 Layer(5 "component")
 (
