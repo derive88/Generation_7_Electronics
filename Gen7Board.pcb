@@ -991,7 +991,7 @@ Element["" "JUMPER2_1" "J9" "unknown" 325000 242500 2503 21100 0 100 ""]
 
 	)
 
-Element["" "100-2-1" "TEMP1" "unknown" 172500 302500 -15000 -2500 3 100 ""]
+Element["" "100-2-1" "TEMP_BED" "unknown" 172500 302500 -15000 -5000 3 100 ""]
 (
 	Pin[0 0 8000 2000 8500 4000 "1" "1" "edge2"]
 	Pin[0 10000 8000 2000 8500 4000 "2" "2" "edge2"]
@@ -1617,7 +1617,7 @@ Element["" "ATX20+4-1" "CONN1" "unknown" 602500 212500 -7500 80000 3 100 ""]
 
 	)
 
-Element["" "Combi-2-1" "HEATER1" "unknown" 199941 415059 -27500 -12874 3 100 ""]
+Element["" "Combi-2-1" "HEATER_EXT" "unknown" 199941 415059 -27500 -17874 3 100 ""]
 (
 	Pin[0 7874 12800 2000 13300 6300 "1" "1" ""]
 	Pin[0 -7874 12800 2000 13300 6300 "2" "2" ""]
@@ -1652,7 +1652,7 @@ Element["" "ACY300_1" "R12" "10R" 270000 450000 -5000 -3000 0 100 ""]
 
 	)
 
-Element["" "Combi-2-1" "HEATER2" "unknown" 199941 480059 -27500 -12874 3 100 ""]
+Element["" "Combi-2-1" "HEATER_BED" "unknown" 199941 480059 -27500 -17874 3 100 ""]
 (
 	Pin[0 7874 12800 2000 13300 6300 "1" "1" ""]
 	Pin[0 -7874 12800 2000 13300 6300 "2" "2" ""]
@@ -1749,7 +1749,7 @@ Element["" "RCY2mm" "CT2" "10_uF" 200000 281100 -11700 9700 0 100 ""]
 
 	)
 
-Element["" "100-2-1" "TEMP2" "unknown" 172500 275000 -15000 -2500 3 100 ""]
+Element["" "100-2-1" "TEMP_EXT" "unknown" 172500 275000 -15000 -12500 3 100 ""]
 (
 	Pin[0 0 8000 2000 8500 4000 "1" "1" "edge2"]
 	Pin[0 10000 8000 2000 8500 4000 "2" "2" "edge2"]
@@ -2590,8 +2590,8 @@ NetList()
 		Connect("RESET-1")
 		Connect("SERIAL-1")
 		Connect("SERIAL-2")
-		Connect("TEMP1-2")
-		Connect("TEMP2-2")
+		Connect("TEMP_BED-2")
+		Connect("TEMP_EXT-2")
 		Connect("U1-11")
 		Connect("U1-31")
 		Connect("U2-9")
@@ -2652,7 +2652,7 @@ NetList()
 	(
 		Connect("CT1-1")
 		Connect("RT1-1")
-		Connect("TEMP1-1")
+		Connect("TEMP_BED-1")
 		Connect("U1-40")
 	)
 	Net("unnamed_net10" "(unknown)")
@@ -2816,7 +2816,7 @@ NetList()
 	(
 		Connect("CT2-1")
 		Connect("RT2-1")
-		Connect("TEMP2-1")
+		Connect("TEMP_EXT-1")
 		Connect("U1-39")
 	)
 	Net("unnamed_net38" "(unknown)")
@@ -3005,7 +3005,7 @@ NetList()
 	Net("unnamed_net73" "(unknown)")
 	(
 		Connect("D2-2")
-		Connect("HEATER2-2")
+		Connect("HEATER_BED-2")
 		Connect("LED2-2")
 		Connect("Q2-2")
 	)
@@ -3032,7 +3032,7 @@ NetList()
 	Net("unnamed_net78" "(unknown)")
 	(
 		Connect("D1-2")
-		Connect("HEATER1-2")
+		Connect("HEATER_EXT-2")
 		Connect("LED5-2")
 		Connect("Q1-2")
 	)
@@ -3052,8 +3052,8 @@ NetList()
 		Connect("CONN3-1")
 		Connect("D1-1")
 		Connect("D2-1")
-		Connect("HEATER1-1")
-		Connect("HEATER2-1")
+		Connect("HEATER_BED-1")
+		Connect("HEATER_EXT-1")
 		Connect("R14-1")
 		Connect("R22-1")
 	)

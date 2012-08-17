@@ -1065,28 +1065,28 @@ N 29800 37700 29600 37700 4
 C 21000 42500 1 0 0 connector2-1.sym
 {
 T 21000 43300 5 10 1 1 0 0 1
-refdes=HEATER2
+refdes=HEATER_BED
 T 21000 42500 5 10 0 0 0 0 1
 footprint=Combi-2-1
 }
 C 21000 38800 1 0 0 connector2-1.sym
 {
 T 21000 39600 5 10 1 1 0 0 1
-refdes=HEATER1
+refdes=HEATER_EXT
 T 21000 38800 5 10 0 0 0 0 1
 footprint=Combi-2-1
 }
 C 42500 56000 1 270 0 connector2-1.sym
 {
 T 42500 56100 5 10 1 1 0 0 1
-refdes=TEMP1
+refdes=TEMP_BED
 T 42500 56000 5 10 0 0 0 0 1
 footprint=100-2-1
 }
 C 44500 56000 1 270 0 connector2-1.sym
 {
 T 44500 56100 5 10 1 1 0 0 1
-refdes=TEMP2
+refdes=TEMP_EXT
 T 44500 56000 5 10 0 0 0 0 1
 footprint=100-2-1
 }
