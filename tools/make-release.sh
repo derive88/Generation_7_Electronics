@@ -57,6 +57,9 @@ if [ "${PART}" = "${IDE_FULL_NAME}" ]; then
 
 else  # electronics designs
 
+  # bugfix for gEDA/PCB 20110918, can be removed later
+  LC_NUMERIC=C
+
   echo "Creating ${PART} ${RELEASE} schematic PDFs ..."
   for F in "${PART}"*.sch; do
     PS_DOC="${DOC_DIR}/${F%.sch} ${RELEASE} Schematic.ps"
