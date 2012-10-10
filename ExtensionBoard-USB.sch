@@ -105,7 +105,7 @@ refdes=Z1
 T 42000 38200 5 10 1 1 90 0 1
 value=3V6
 T 41800 37900 5 10 0 0 0 0 1
-footprint=ACY300_1
+footprint=Diode300_1
 }
 C 41600 37400 1 0 0 gnd-1.sym
 N 41700 37900 41700 37700 4
@@ -116,7 +116,7 @@ refdes=Z2
 T 42800 38200 5 10 1 1 90 0 1
 value=3V6
 T 42600 37900 5 10 0 0 0 0 1
-footprint=ACY300_1
+footprint=Diode300_1
 }
 C 42400 37400 1 0 0 gnd-1.sym
 N 42500 37900 42500 37700 4
