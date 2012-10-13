@@ -6,7 +6,7 @@ FileVersion[20070407]
 PCB["" 787402 629921]
 
 Grid[2500.0 0 0 1]
-Cursor[347500 250000 6.000000]
+Cursor[555000 215000 6.000000]
 PolyArea[200000000.000000]
 Thermal[0.500000]
 DRC[1600 1000 1000 500 1500 1000]
@@ -809,26 +809,7 @@ Element["" "ACY300_1" "R3" "68R" 405000 275000 -3000 5000 1 100 ""]
 
 	)
 
-Element["" "USB_B" "USB" "unknown" 476500 341500 -33000 -23000 0 200 ""]
-(
-	Pin[-18800 -51200 6000 2000 6500 3000 "GND" "4" "edge2"]
-	Pin[-28600 -51200 6000 2000 6500 3000 "D+" "3" "edge2"]
-	Pin[-28600 -59000 6000 2000 6500 3000 "D-" "2" "edge2"]
-	Pin[-18800 -59000 6000 2000 6500 3000 "5V" "1" "edge2"]
-	Pin[0 -40500 16600 2000 17400 8700 "5" "5" "edge2"]
-	Pin[-47400 -40500 16600 2000 17400 8700 "5" "5" "edge2"]
-	ElementLine [0 -34500 0 0 1000]
-	ElementLine [-47400 0 0 0 1000]
-	ElementLine [-47400 -34500 -47400 0 1000]
-	ElementLine [0 -64000 0 -46500 1000]
-	ElementLine [-47400 -64000 0 -64000 1000]
-	ElementLine [-47400 -64000 -47400 -46500 1000]
-	ElementArc [0 -40500 6000 6000 180 360 1000]
-	ElementArc [-47400 -40500 6000 6000 180 360 1000]
-
-	)
-
-Element["lock" "ExtensionBoard" "BOARD" "unknown" 342500 337500 -47500 38000 0 100 ""]
+Element["lock" "ExtensionBoard" "BOARD" "ExtensionBoard" 342500 337500 -47500 38000 0 100 ""]
 (
 	Pin[0 0 8000 2000 8500 4000 "PB5" "1" "lock,edge2"]
 	Pin[10000 0 8000 2000 8500 4000 "PB6" "2" "lock,edge2"]
@@ -922,7 +903,7 @@ Element["" "ACY100_1" "C1" "0.1_uF" 382500 317500 4500 1500 1 100 ""]
 
 	)
 
-Element["" "DIP8_1" "U1" "unknown" 357500 297500 5000 3000 0 100 ""]
+Element["" "DIP8_1" "U1" "ATtiny45" 357500 297500 -10000 -9500 0 100 ""]
 (
 	Pin[15000 -15000 6000 3000 6500 3000 "PB5" "1" "edge2"]
 	Pin[5000 -15000 6000 3000 6500 3000 "PB3" "2" "edge2"]
@@ -964,6 +945,25 @@ Element["" "Diode300_1" "Z1" "3V6" 395000 290000 5000 11500 1 100 ""]
 	ElementLine [-5000 5000 5000 5000 1000]
 	ElementLine [-5000 5000 0 -5000 1000]
 	ElementLine [-5000 -5000 5000 -5000 1000]
+
+	)
+
+Element["" "USB_B" "CONN1" "USB" 476500 341500 -38000 -25500 0 200 ""]
+(
+	Pin[-18800 -51200 6000 2000 6500 3000 "GND" "4" "edge2"]
+	Pin[-28600 -51200 6000 2000 6500 3000 "D+" "3" "edge2"]
+	Pin[-28600 -59000 6000 2000 6500 3000 "D-" "2" "edge2"]
+	Pin[-18800 -59000 6000 2000 6500 3000 "5V" "1" "edge2"]
+	Pin[0 -40500 16600 2000 17400 8700 "5" "5" "edge2"]
+	Pin[-47400 -40500 16600 2000 17400 8700 "5" "5" "edge2"]
+	ElementLine [0 -34500 0 0 1000]
+	ElementLine [-47400 0 0 0 1000]
+	ElementLine [-47400 -34500 -47400 0 1000]
+	ElementLine [0 -64000 0 -46500 1000]
+	ElementLine [-47400 -64000 0 -64000 1000]
+	ElementLine [-47400 -64000 -47400 -46500 1000]
+	ElementArc [0 -40500 6000 6000 180 360 1000]
+	ElementArc [-47400 -40500 6000 6000 180 360 1000]
 
 	)
 Layer(1 "solder")
@@ -1064,8 +1064,8 @@ NetList()
 	(
 		Connect("BOARD-6")
 		Connect("C1-2")
+		Connect("CONN1-4")
 		Connect("U1-4")
-		Connect("USB-4")
 		Connect("Z1-1")
 		Connect("Z2-1")
 	)
@@ -1076,9 +1076,9 @@ NetList()
 	)
 	Net("unnamed_net2" "(unknown)")
 	(
+		Connect("CONN1-2")
 		Connect("R1-1")
 		Connect("R2-1")
-		Connect("USB-2")
 		Connect("Z1-2")
 	)
 	Net("unnamed_net3" "(unknown)")
@@ -1108,8 +1108,8 @@ NetList()
 	)
 	Net("unnamed_net8" "(unknown)")
 	(
+		Connect("CONN1-3")
 		Connect("R3-1")
-		Connect("USB-3")
 		Connect("Z2-2")
 	)
 )

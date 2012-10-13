@@ -21,14 +21,12 @@ C 51600 34700 1 0 0 ExtensionBoard.sym
 T 53000 40550 5 10 1 1 0 3 1
 refdes=BOARD
 T 52300 40750 5 10 0 0 0 0 1
-footprint=ExtensionBoard
-T 53000 34850 5 10 1 1 0 5 1
-device=ExtensionBoard
+value=ExtensionBoard
 }
 C 45300 37700 1 0 0 ATtiny25-45-85.sym
 {
 T 46900 37900 5 10 1 1 0 5 1
-device=ATtiny45
+value=ATtiny45
 T 46900 40400 5 10 1 1 0 3 1
 refdes=U1
 T 46926 40600 5 10 0 0 0 3 1
@@ -125,8 +123,10 @@ N 42500 38700 42500 39000 4
 C 40800 41300 1 0 0 5V-plus-1.sym
 C 38200 37900 1 0 0 USB.sym
 {
-T 38300 39900 5 10 1 1 0 0 1
-refdes=USB
+T 39400 39900 5 10 1 1 0 0 1
+value=USB
 T 38200 37900 5 10 0 0 0 0 1
 footprint=USB_B
+T 38300 39900 5 10 1 1 0 0 1
+refdes=CONN1
 }
