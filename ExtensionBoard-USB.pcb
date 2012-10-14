@@ -6,7 +6,7 @@ FileVersion[20070407]
 PCB["" 787402 629921]
 
 Grid[2500.0 0 0 1]
-Cursor[555000 215000 6.000000]
+Cursor[317500 255000 6.000000]
 PolyArea[200000000.000000]
 Thermal[0.500000]
 DRC[1600 1000 1000 500 1500 1000]
@@ -969,14 +969,8 @@ Element["" "USB_B" "CONN1" "USB" 476500 341500 -38000 -25500 0 200 ""]
 Layer(1 "solder")
 (
 	Line[362500 337500 362500 312500 3000 3200 "clearline"]
-	Line[352500 330000 342500 320000 3000 3200 "clearline"]
-	Line[352500 337500 352500 330000 3000 3200 "clearline"]
-	Line[335000 330000 335000 310000 3000 3200 "clearline"]
-	Line[342500 320000 342500 312500 3000 3200 "clearline"]
-	Line[352500 310000 347500 305000 3000 3200 "clearline"]
-	Line[352500 312500 352500 310000 3000 3200 "clearline"]
-	Line[347500 305000 340000 305000 3000 3200 "clearline"]
-	Line[340000 305000 335000 310000 3000 3200 "clearline"]
+	Line[352500 337500 352500 312500 3000 3200 "clearline"]
+	Line[342500 337500 342500 312500 3000 3200 "clearline"]
 	Line[402500 307500 402500 300000 3000 3200 "clearline"]
 	Line[402500 300000 392500 290000 3000 3200 "clearline"]
 	Line[392500 290000 380000 290000 3000 3200 "clearline"]
@@ -997,7 +991,6 @@ Layer(1 "solder")
 	Line[395000 270000 392500 267500 3000 3200 "clearline"]
 	Line[395000 270000 395000 275000 3000 3200 "clearline"]
 	Line[405000 290000 415000 290000 3000 3200 "clearline"]
-	Line[342500 337500 335000 330000 3000 3200 "clearline"]
 )
 Layer(2 "GND-sldr")
 (
@@ -1084,12 +1077,12 @@ NetList()
 	Net("unnamed_net3" "(unknown)")
 	(
 		Connect("BOARD-1")
-		Connect("U1-6")
+		Connect("U1-5")
 	)
 	Net("unnamed_net4" "(unknown)")
 	(
 		Connect("BOARD-2")
-		Connect("U1-5")
+		Connect("U1-6")
 	)
 	Net("unnamed_net5" "(unknown)")
 	(
