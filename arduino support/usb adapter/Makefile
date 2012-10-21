@@ -20,7 +20,7 @@ MCU = attiny45
 F_CPU = 16500000UL
 
 
-TARGET = spitiny.elf
+TARGET = $(PROJECT).elf
 CC = avr-gcc
 
 ## Options common to compile, link and assembly rules
@@ -60,7 +60,7 @@ OBJECTS = main.o usbdrv.o usbdrvasm.o oddebug.o osccal.o
 LINKONLYOBJECTS = 
 
 ## Build
-all: $(TARGET) spitiny.hex spitiny.eep spitiny.lss size
+all: $(TARGET) $(PROJECT).hex $(PROJECT).eep $(PROJECT).lss size
 
 ## Compile
 main.o: main.c
@@ -98,7 +98,7 @@ size: ${TARGET}
 ## Clean target
 .PHONY: clean
 clean:
-	-rm -rf $(OBJECTS) spitiny.elf dep/* spitiny.hex spitiny.eep spitiny.lss
+	-rm -rf $(OBJECTS) $(PROJECT).elf dep/* $(PROJECT).hex $(PROJECT).eep $(PROJECT).lss
 
 ## Other dependencies
 -include $(shell mkdir dep 2>/dev/null) $(wildcard dep/*)
