@@ -72,10 +72,14 @@ DEVELOPMENT
 
     There are several options you can configure in Makefile.
 
-    MCU     Select MCU type.   
-    F_CPU   Select clock. 16.5MHz is the internal RC oscillator for
-            ATtiny45/85/461/861, and 12.8MHz is for ATtiny44/84.
-            3.3V Vcc may not be enough for the higher clock operation.
+    MCU       Select MCU type.   
+    F_CPU     Select clock. 16.5MHz is the internal RC oscillator for
+              ATtiny45/85/461/861, and 12.8MHz is for ATtiny44/84.
+              3.3V Vcc may not be enough for the higher clock operation.
+    AVRDUDE*  Select your programming tool and it's flags.
+              AVRDUDEFLAGSFAST is used for normal operations,
+              AVRDUDEFLAGSSLOW is used for operations typically applied to
+              factory fresh ATtinys.
 
     Rebuild all the codes after modifying Makefile.
 

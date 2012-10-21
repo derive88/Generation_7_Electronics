@@ -19,6 +19,10 @@ MCU = attiny45
 ## attiny45/85/461/861 
 F_CPU = 16500000UL
 
+AVRDUDE = avrdude
+AVRDUDEFLAGS = -c stk500v2 -p $(MCU) -P /dev/ttyACM0
+AVRDUDEFLAGSFAST = $(AVRDUDEFLAGS) -B 1
+AVRDUDEFLAGSSLOW = $(AVRDUDEFLAGS) -B 5
 
 TARGET = $(PROJECT).elf
 CC = avr-gcc
@@ -61,6 +65,14 @@ LINKONLYOBJECTS =
 
 ## Build
 all: $(TARGET) $(PROJECT).hex $(PROJECT).eep $(PROJECT).lss size
+
+## Program
+program: $(PROJECT).hex
+	$(AVRDUDE) $(AVRDUDEFLAGSFAST) -U flash:w:$^
+
+# For fuses, see http://www.engbedded.com/fusecalc/
+fuses:
+	$(AVRDUDE) $(AVRDUDEFLAGSSLOW) -U lfuse:w:0xE1:m -U hfuse:w:0xDC:m
 
 ## Compile
 main.o: main.c
