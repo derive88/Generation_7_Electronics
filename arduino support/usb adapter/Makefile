@@ -15,9 +15,9 @@ MCU = attiny45
 #MCU = attiny861
 
 ## attiny44/84
-#CLK = 12800000UL
+#F_CPU = 12800000UL
 ## attiny45/85/461/861 
-CLK = 16500000UL
+F_CPU = 16500000UL
 
 
 TARGET = spitiny.elf
@@ -28,7 +28,7 @@ COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2 -DF_CPU=$(CLK) -Os -fsigned-char
+CFLAGS += -Wall -gdwarf-2 -DF_CPU=$(F_CPU) -Os -fsigned-char
 #CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
