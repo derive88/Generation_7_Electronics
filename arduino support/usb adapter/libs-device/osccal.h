@@ -4,7 +4,7 @@
  * Tabsize: 4
  * Copyright: (c) 2008 by OBJECTIVE DEVELOPMENT Software GmbH
  * License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
- * This Revision: $Id: osccal.h 762 2009-08-12 17:10:30Z cs $
+ * This Revision: $Id$
  */
 
 /*
@@ -51,9 +51,7 @@ deviation! All other frequency modules require at least 0.2% precision.
 #ifndef __OSCCAL_H_INCLUDED__
 #define __OSCCAL_H_INCLUDED__
 
-#ifndef __ASSEMBLER__
 void    calibrateOscillator(void);
-#endif
 /* This function calibrates the RC oscillator so that the CPU runs at F_CPU.
  * It MUST be called immediately after the end of a USB RESET condition!
  * Disable all interrupts during the call!
