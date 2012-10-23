@@ -222,33 +222,20 @@ void usbFunctionWriteOut(uchar *data, uchar len) {
 
 
 static void hardwareInit(void) {
-  /* activate pull-ups except on USB lines */
-  USB_CFG_IOPORT = (uchar)~((1 << USB_CFG_DMINUS_BIT) | (1 << USB_CFG_DPLUS_BIT));
-  /* all pins input except USB (-> USB reset) */
-#ifdef USB_CFG_PULLUP_IOPORT /* use usbDeviceConnect()/usbDeviceDisconnect() if available */
-#warning defined
-  USBDDR = 0;    /* we do RESET by deactivating pullup */
-  usbDeviceDisconnect();
-#else
-#warning not
-  USBDDR = (1 << USB_CFG_DMINUS_BIT) | (1 << USB_CFG_DPLUS_BIT);
-#endif
-
-  /* keep 300 mS  */
-  _delay_ms(300.0);
-
-#ifdef USB_CFG_PULLUP_IOPORT
-  usbDeviceConnect();
-#else
-  USBDDR    = 0;      /* remove USB reset condition */
-#endif
-}
-
-int main(void) {
   wdt_disable();
   PRR = 0xCF;     // disable all peripherals except Timer0
   ACSR |= 0x80;   // disable analog comparator and save 70uA
   TCCR0B = 0x03;  // prescaler 64 (see osctune.h)
+  
+  /* activate pull-ups except on USB lines */
+  USB_CFG_IOPORT = (uchar)~((1 << USB_CFG_DMINUS_BIT) | (1 << USB_CFG_DPLUS_BIT));
+
+  usbDeviceDisconnect();
+  _delay_ms(300);
+  usbDeviceConnect();
+}
+
+int main(void) {
   odDebugInit();
   hardwareInit();
   usbInit();
