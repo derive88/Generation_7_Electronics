@@ -226,9 +226,11 @@ static void hardwareInit(void) {
   USB_CFG_IOPORT = (uchar)~((1 << USB_CFG_DMINUS_BIT) | (1 << USB_CFG_DPLUS_BIT));
   /* all pins input except USB (-> USB reset) */
 #ifdef USB_CFG_PULLUP_IOPORT /* use usbDeviceConnect()/usbDeviceDisconnect() if available */
+#warning defined
   USBDDR = 0;    /* we do RESET by deactivating pullup */
   usbDeviceDisconnect();
 #else
+#warning not
   USBDDR = (1 << USB_CFG_DMINUS_BIT) | (1 << USB_CFG_DPLUS_BIT);
 #endif
 
