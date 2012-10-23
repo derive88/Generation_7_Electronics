@@ -142,7 +142,7 @@ uchar usbFunctionDescriptor(usbRequest_t *rq) {
   }
 }
 
-
+uchar lastTimer0Value; // see osctune.h
 static uchar modeBuffer[7];
 static uchar sendEmptyFrame;
 static uchar intr3Status; /* used to control interrupt endpoint transmissions */
@@ -246,6 +246,7 @@ int main(void) {
   wdt_disable();
   PRR = 0xCF;     // disable all peripherals except Timer0
   ACSR |= 0x80;   // disable analog comparator and save 70uA
+  TCCR0B = 0x03;  // prescaler 64 (see osctune.h)
   odDebugInit();
   hardwareInit();
   usbInit();
