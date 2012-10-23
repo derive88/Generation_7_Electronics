@@ -14,7 +14,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
-#include <avr/wdt.h>
 #include <util/delay.h>
 
 #include "usbdrv.h"
@@ -269,7 +268,6 @@ static void hardwareInit(void) {
 }
 
 int main(void) {
-  wdt_enable(WDTO_1S);
   odDebugInit();
   hardwareInit();
   usbInit();
@@ -294,7 +292,6 @@ int main(void) {
 
   sei();
   for (;;) {    /* main event loop */
-    wdt_reset();
     usbPoll();
 
     /*  host => device  */
@@ -310,7 +307,6 @@ int main(void) {
         if (SPI_PIN & (1 << SPI_SPEED)) {
           do {
             // clk=1MHz
-            wdt_reset();
             USICR |= (1 << USITC);
           } while ( ! (USISR & (1 << USIOIF)));
         }
@@ -333,9 +329,6 @@ int main(void) {
         if (SPI_PIN & (1 << SPI_SPEED)) {
           do {
             //    clk=1MHz
-            wdt_reset();
-            wdt_reset();
-            wdt_reset();
             USICR |= (1 << USITC);
           } while ( ! (USISR & (1 << USIOIF)));
         }
