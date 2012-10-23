@@ -14,6 +14,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
+#include <avr/wdt.h>
 #include <util/delay.h>
 
 #include "usbdrv.h"
@@ -268,6 +269,7 @@ static void hardwareInit(void) {
 }
 
 int main(void) {
+  wdt_disable();
   odDebugInit();
   hardwareInit();
   usbInit();
