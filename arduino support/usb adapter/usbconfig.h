@@ -5,7 +5,7 @@
  * Tabsize: 4
  * Copyright: (c) 2005 by OBJECTIVE DEVELOPMENT Software GmbH
  * License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
- * This Revision: $Id: usbconfig-prototype.h 740 2009-04-13 18:23:31Z cs $
+ * This Revision: $Id$
  */
 
 #ifndef __usbconfig_h_included__
@@ -66,10 +66,12 @@ section at the end of this file).
 
 #define USB_CFG_CLOCK_KHZ       (F_CPU/1000)
 /* Clock rate of the AVR in kHz. Legal values are 12000, 12800, 15000, 16000,
- * 16500 and 20000. The 12.8 MHz and 16.5 MHz versions of the code require no
- * crystal, they tolerate +/- 1% deviation from the nominal frequency. All
- * other rates require a precision of 2000 ppm and thus a crystal!
- * Default if not specified: 12 MHz
+ * 16500, 18000 and 20000. The 12.8 MHz and 16.5 MHz versions of the code
+ * require no crystal, they tolerate +/- 1% deviation from the nominal
+ * frequency. All other rates require a precision of 2000 ppm and thus a
+ * crystal!
+ * Since F_CPU should be defined to your actual clock rate anyway, you should
+ * not need to modify this setting.
  */
 #define USB_CFG_CHECK_CRC       0
 /* Define this to 1 if you want that the driver checks integrity of incoming
@@ -169,6 +171,11 @@ section at the end of this file).
  * of the macros usbDisableAllRequests() and usbEnableAllRequests() in
  * usbdrv.h.
  */
+#define USB_CFG_DRIVER_FLASH_PAGE       0
+/* If the device has more than 64 kBytes of flash, define this to the 64 k page
+ * where the driver's constants (descriptors) are located. Or in other words:
+ * Define this to 1 for boot loaders on the ATMega128.
+ */
 #define USB_CFG_LONG_TRANSFERS          0
 /* Define this to 1 if you want to send/receive blocks of more than 254 bytes
  * in a single control-in or control-out transfer. Note that the capability
@@ -222,12 +229,7 @@ section at the end of this file).
  * usbFunctionWrite(). Use the global usbCurrentDataToken and a static variable
  * for each control- and out-endpoint to check for duplicate packets.
  */
-#if USB_CFG_CLOCK_KHZ==16500 || USB_CFG_CLOCK_KHZ==12800
 #define USB_CFG_HAVE_MEASURE_FRAME_LENGTH   1
-#include "osccal.h"
-#else
-#define USB_CFG_HAVE_MEASURE_FRAME_LENGTH   0
-#endif
 /* define this macro to 1 if you want the function usbMeasureFrameLength()
  * compiled in. This function can be used to calibrate the AVR's RC oscillator.
  */
@@ -272,7 +274,7 @@ section at the end of this file).
  * are interpreted as Unicode (UTF-16) entities.
  * If you don't want a vendor name string, undefine these macros.
  * ALWAYS define a vendor name containing your Internet domain name if you use
- * obdev's free shared VID/PID pair. See the file USBID-License.txt for
+ * obdev's free shared VID/PID pair. See the file USB-IDs-for-free.txt for
  * details.
  */
 #define USB_CFG_DEVICE_NAME     'U', 'S', 'B', '-', 'S', 'P', 'I'
@@ -394,7 +396,7 @@ section at the end of this file).
 /* #define USB_INTR_ENABLE_BIT     INT0 */
 /* #define USB_INTR_PENDING        GIFR */
 /* #define USB_INTR_PENDING_BIT    INTF0 */
-/* #define USB_INTR_VECTOR         SIG_INTERRUPT0 */
+/* #define USB_INTR_VECTOR         INT0_vect */
 
 #if defined (__AVR_ATtiny45__) || defined (__AVR_ATtiny85__)
 #define USB_INTR_CFG            PCMSK
