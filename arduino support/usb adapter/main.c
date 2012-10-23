@@ -1,7 +1,7 @@
 /*
  * Name: main.c
  * Project: AVR USB driver for CDC-SPI on Low-Speed USB
- *              for ATtiny44/84/45/85/461/861
+ *              for ATtiny45/85
  * Author: Osamu Tamura
  * Adjusted for Generation 7 Electronics
  * Creation Date: 2010-01-10
@@ -20,19 +20,7 @@
 #include "usbdrv.h"
 #include "oddebug.h"
 
-#if defined (__AVR_ATtiny44__) || defined (__AVR_ATtiny84__)
-#define TIMSK       TIMSK0
-#define TIMER0_COMPA_vect   TIM0_COMPA_vect
-#define SPI_DDR     DDRA
-#define SPI_PORT    PORTA
-#define SPI_PIN     PINA
-#define SPI_DI      6
-#define SPI_DO      5
-#define SPI_SCL     4
-#define SPI_SPEED   7        // 1:1MHz, 0:125kHz
-#define SPI_SS      2        // b3:DTS, b2:Break
-
-#elif defined (__AVR_ATtiny45__) || defined (__AVR_ATtiny85__)
+// ATtiny45/85
 #define SPI_DDR     DDRB
 #define SPI_PORT    PORTB
 #define SPI_PIN     PINB
@@ -41,21 +29,8 @@
 #define SPI_SCL     2
 #define SPI_SS      5        // b5:Break
 
-#elif defined (__AVR_ATtiny461__) || defined (__AVR_ATtiny861__)
-#define WGM01       WGM00
-#define SPI_DDR     DDRA
-#define SPI_PORT    PORTA
-#define SPI_PIN     PINA
-#define SPI_DI      0
-#define SPI_DO      1
-#define SPI_SCL     2
-#define SPI_SPEED   3        // 1:1MHz, 0:125kHz
-#define SPI_SS      4        // b5:DTS, b4:Break
-#endif
-
 #define HW_CDC_BULK_OUT_SIZE     8
 #define HW_CDC_BULK_IN_SIZE      8
-
 
 enum {
   SEND_ENCAPSULATED_COMMAND = 0,
@@ -68,7 +43,6 @@ enum {
   SET_CONTROL_LINE_STATE,
   SEND_BREAK
 };
-
 
 /* USB configuration descriptor */
 static PROGMEM char configDescrCDC[] = {
@@ -278,18 +252,11 @@ int main(void) {
 
   /* set DO, SCL, /SS0, and /SS1 as output  */
   SPI_DDR  |= (1 << SPI_DO) | (1 << SPI_SCL) | (3 << SPI_SS);
-#ifdef SPI_SPEED
-  SPI_PORT = (1 << SPI_DI) | (1 << SPI_SPEED) | (3 << SPI_SS);
-#else
   SPI_PORT &= (uchar)~((1 << SPI_DO) | (1 << SPI_SCL));
   SPI_PORT |= (1 << SPI_DI) | (1 << SPI_SS);
-#endif
 
   /* SPI mode */
   USICR = (1 << USIWM0) | (1 << USICS1) | (1 << USICLK);
-#if defined (__AVR_ATtiny461__) || defined (__AVR_ATtiny861__)
-  USIPP |= (1 << USIPOS);
-#endif
 
   intr3Status = 0;
   sendEmptyFrame  = 0;
@@ -306,44 +273,11 @@ int main(void) {
       while (iwptr < uwptr) {
         USIDR = tx_buf[iwptr];
         USISR = (1 << USIOIF);
-
-#if defined (__AVR_ATtiny44__) || defined (__AVR_ATtiny84__)
-        if (SPI_PIN & (1 << SPI_SPEED)) {
-          do {
-            // clk=1MHz
-            USICR |= (1 << USITC);
-          } while ( ! (USISR & (1 << USIOIF)));
-        }
-        else {
-          do {
-            // clk=125kHz
-            _delay_us(3.8);
-            USICR |= (1 << USITC);
-          } while ( ! (USISR & (1 << USIOIF)));
-        }
-
-#elif defined (__AVR_ATtiny45__) || defined (__AVR_ATtiny85__)
         do {
           // clk=250kHz
           _delay_us(1.7);
           USICR |= (1 << USITC);
         } while ( ! (USISR & (1 << USIOIF)));
-
-#elif defined (__AVR_ATtiny461__) || defined (__AVR_ATtiny861__)
-        if (SPI_PIN & (1 << SPI_SPEED)) {
-          do {
-            //    clk=1MHz
-            USICR |= (1 << USITC);
-          } while ( ! (USISR & (1 << USIOIF)));
-        }
-        else {
-          do {
-            // clk=125kHz
-            _delay_us(3.5);
-            USICR |= (1 << USITC);
-          } while ( ! (USISR & (1 << USIOIF)));
-        }
-#endif
         rx_buf[iwptr++] = USIDR;
       }
       uwptr    = 0;

@@ -26,15 +26,15 @@ section at the end of this file).
 
 /* ---------------------------- Hardware Config ---------------------------- */
 
-/* #define USB_CFG_IOPORTNAME      D */
+#define USB_CFG_IOPORTNAME      B
 /* This is the port where the USB bus is connected. When you configure it to
  * "B", the registers PORTB, PINB and DDRB will be used.
  */
-/* #define USB_CFG_DMINUS_BIT      4 */
+#define USB_CFG_DMINUS_BIT      3
 /* This is the bit number in USB_CFG_IOPORT where the USB D- line is connected.
  * This may be any bit in the port.
  */
-/* #define USB_CFG_DPLUS_BIT       2 */
+#define USB_CFG_DPLUS_BIT       4
 /* This is the bit number in USB_CFG_IOPORT where the USB D+ line is connected.
  * This may be any bit in the port. Please note that D+ must also be connected
  * to interrupt pin INT0! [You can also use other interrupts, see section
@@ -43,27 +43,6 @@ section at the end of this file).
  * interrupt, the USB interrupt will also be triggered at Start-Of-Frame
  * markers every millisecond.]
  */
-#if defined (__AVR_ATtiny44__) || defined (__AVR_ATtiny84__)
-#define USB_CFG_IOPORTNAME      B
-#define USB_CFG_DMINUS_BIT      1
-#define USB_CFG_DPLUS_BIT       2
-
-#elif defined (__AVR_ATtiny45__) || defined (__AVR_ATtiny85__)
-#define USB_CFG_IOPORTNAME      B
-#define USB_CFG_DMINUS_BIT      3
-#define USB_CFG_DPLUS_BIT       4
-
-#elif defined (__AVR_ATtiny461__) || defined (__AVR_ATtiny861__)
-#define USB_CFG_IOPORTNAME      B
-#define USB_CFG_DMINUS_BIT      5
-#define USB_CFG_DPLUS_BIT       6
-#else
-/*	ATtiny2313, ATmega8/48/88/168	*/
-#define USB_CFG_IOPORTNAME      D
-#define USB_CFG_DMINUS_BIT      3
-#define USB_CFG_DPLUS_BIT       2
-#endif
-
 #define USB_CFG_CLOCK_KHZ       (F_CPU/1000)
 /* Clock rate of the AVR in kHz. Legal values are 12000, 12800, 15000, 16000,
  * 16500, 18000 and 20000. The 12.8 MHz and 16.5 MHz versions of the code
@@ -145,11 +124,7 @@ section at the end of this file).
  * The value is in milliamperes. [It will be divided by two since USB
  * communicates power requirements in units of 2 mA.]
  */
-#if defined (__AVR_ATtiny2313__)
-#define USB_CFG_IMPLEMENT_FN_WRITE      0
-#else
 #define USB_CFG_IMPLEMENT_FN_WRITE      1
-#endif
 /* Set this to 1 if you want usbFunctionWrite() to be called for control-out
  * transfers. Set it to 0 if you don't need it and want to save a couple of
  * bytes.
@@ -292,7 +267,7 @@ section at the end of this file).
  * to fine tune control over USB descriptors such as the string descriptor
  * for the serial number.
  */
-#define USB_CFG_DEVICE_CLASS        2    /* set to 0 if deferred to interface */
+#define USB_CFG_DEVICE_CLASS        2       /* set to 0 if deferred to interface */
 #define USB_CFG_DEVICE_SUBCLASS     0
 /* See USB specification if you want to conform to an existing device class.
  * Class 0xff is "vendor specific".
@@ -398,12 +373,10 @@ section at the end of this file).
 /* #define USB_INTR_PENDING_BIT    INTF0 */
 /* #define USB_INTR_VECTOR         INT0_vect */
 
-#if defined (__AVR_ATtiny45__) || defined (__AVR_ATtiny85__)
 #define USB_INTR_CFG            PCMSK
 #define USB_INTR_CFG_SET        (1<<USB_CFG_DPLUS_BIT)
 #define USB_INTR_ENABLE_BIT     PCIE
 #define USB_INTR_PENDING_BIT    PCIF
 #define USB_INTR_VECTOR         SIG_PIN_CHANGE
-#endif
 
 #endif /* __usbconfig_h_included__ */

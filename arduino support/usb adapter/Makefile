@@ -5,18 +5,9 @@
 ## General Flags
 PROJECT = spitiny
 
-#MCU = attiny44
-#MCU = attiny84
-
 MCU = attiny45
 #MCU = attiny85
 
-#MCU = attiny461
-#MCU = attiny861
-
-## attiny44/84
-#F_CPU = 12800000UL
-## attiny45/85/461/861 
 F_CPU = 16500000UL
 
 AVRDUDE = avrdude

@@ -24,18 +24,8 @@ SPECIFICATION
         clock speed:    250kHz
         slave select:   0/1 bits (ISP/HVSP)
 
-    CDC-SPI for ATtiny44/84, tiny461/861 and tiny2313
-        clock mode:     0
-        clock speed:    1MHz / 125kHz
-        slave select:   2 bits
-
-    CDC-SPI (ATmega8/48/88/168)
-        clock mode:     0-3
-        clock speed:    188 kHz
-        slave select:   2 bits
-
     Internal RC Oscillator is calibrated at startup time. It may be unstable 
-    after a long time operation (ATtiny44/84, 45/85 and 461/861).
+    after a long time operation.
 
     Although the CDC is supported by Windows 2000/XP/Vista/7, Mac OS 9.1/X,
     and Linux 2.4, low-speed bulk transfer is not allowed by the USB standard.
@@ -73,8 +63,7 @@ DEVELOPMENT
     There are several options you can configure in Makefile.
 
     MCU       Select MCU type.   
-    F_CPU     Select clock. 16.5MHz is the internal RC oscillator for
-              ATtiny45/85/461/861, and 12.8MHz is for ATtiny44/84.
+    F_CPU     Select clock. 16.5MHz is the internal RC oscillator.
               3.3V Vcc may not be enough for the higher clock operation.
     AVRDUDE*  Select your programming tool and it's flags.
               AVRDUDEFLAGSFAST is used for normal operations,
@@ -85,12 +74,7 @@ DEVELOPMENT
 
     Fuse bits
                           ext  H-L                    clock(MHz)
-        ATtiny2313         FF CD-FF                    12.0 (X'tal)
-        ATtiny44/84        FF CE-E2                    12.8 (RC)
         ATtiny45/85        FF 4E-F1 (RSTDISBL=0) ***   16.5 (PLLx2)
-        ATtiny461/861      FF C8-F1                    16.5 (PLLx2)
-        ATmega8               8F-FF (CKOPT=0)          12.0 (X'tal)
-        ATmega48/88/168    FF CE-FF                    12.0 (X'tal)
 
 	SPIEN=0, WDTON=0, BOD:1.8-2.7V,
 	*** High-voltage Serial programming has to be used to change fuses
