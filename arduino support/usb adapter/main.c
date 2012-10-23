@@ -270,6 +270,8 @@ static void hardwareInit(void) {
 
 int main(void) {
   wdt_disable();
+  PRR = 0xCF;     // disable all peripherals except Timer0
+  ACSR |= 0x80;   // disable analog comparator and save 70uA
   odDebugInit();
   hardwareInit();
   usbInit();
