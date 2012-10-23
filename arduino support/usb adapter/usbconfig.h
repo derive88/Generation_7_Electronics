@@ -177,6 +177,11 @@ section at the end of this file).
  * counts SOF packets. This feature requires that the hardware interrupt is
  * connected to D- instead of D+.
  */
+#ifndef __ASSEMBLER__
+#include <avr/interrupt.h>  // for sei()
+extern void calibrateOscillator(void);
+#endif
+#define USB_RESET_HOOK(resetStarts)  if(!resetStarts){cli(); calibrateOscillator(); sei();}
 #include "libs-device/osctune.h"
 /* #ifdef __ASSEMBLER__
  * macro myAssemblerMacro
