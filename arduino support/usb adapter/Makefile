@@ -26,7 +26,6 @@ CFLAGS = $(COMMON)
 CFLAGS += -Wall -gdwarf-2 -DF_CPU=$(F_CPU) -Os -fsigned-char
 CFLAGS += -fno-move-loop-invariants
 CFLAGS += -fno-tree-scev-cprop
-#CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
 ASMFLAGS = $(COMMON)
@@ -68,16 +67,16 @@ fuses:
 	$(AVRDUDE) $(AVRDUDEFLAGSSLOW) -U lfuse:w:0xE1:m -U hfuse:w:0xDC:m
 
 ## Compile
-main.o: main.c
+main.o: main.c usbdrv/usbdrv.h
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
-usbdrvasm.o: usbdrv/usbdrvasm.S
+usbdrvasm.o: usbdrv/usbdrvasm.S usbdrv/usbdrv.h usbconfig.h
 	$(CC) $(INCLUDES) $(ASMFLAGS) -c  $<
 
-usbdrv.o: usbdrv/usbdrv.c
+usbdrv.o: usbdrv/usbdrv.c usbdrv/usbdrv.h usbconfig.h
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
-oddebug.o: usbdrv/oddebug.c
+oddebug.o: usbdrv/oddebug.c usbdrv/oddebug.h
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 osccal.o: libs-device/osccal.c
@@ -103,7 +102,4 @@ size: ${TARGET}
 ## Clean target
 .PHONY: clean
 clean:
-	-rm -rf $(OBJECTS) $(PROJECT).elf dep/* $(PROJECT).hex $(PROJECT).eep $(PROJECT).lss
-
-## Other dependencies
--include $(shell mkdir dep 2>/dev/null) $(wildcard dep/*)
+	-rm -f $(OBJECTS) $(PROJECT).elf $(PROJECT).hex $(PROJECT).eep $(PROJECT).lss
