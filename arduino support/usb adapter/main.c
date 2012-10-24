@@ -18,7 +18,6 @@
 #include <util/delay.h>
 
 #include "usbdrv.h"
-#include "oddebug.h"
 
 // ATtiny45/85
 #define SPI_DDR     DDRB
@@ -236,7 +235,6 @@ static void hardwareInit(void) {
 }
 
 int main(void) {
-  odDebugInit();
   hardwareInit();
   usbInit();
 

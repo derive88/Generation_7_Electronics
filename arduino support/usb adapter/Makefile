@@ -50,7 +50,7 @@ INCLUDES =
 INCLUDES = -I"." -I"usbdrv" -I"libs-device"
 
 ## Objects that must be built in order to link
-OBJECTS = main.o usbdrv.o usbdrvasm.o oddebug.o osccal.o 
+OBJECTS = main.o usbdrv.o usbdrvasm.o osccal.o 
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
@@ -74,9 +74,6 @@ usbdrvasm.o: usbdrv/usbdrvasm.S usbdrv/usbdrv.h usbconfig.h
 	$(CC) $(INCLUDES) $(ASMFLAGS) -c  $<
 
 usbdrv.o: usbdrv/usbdrv.c usbdrv/usbdrv.h usbconfig.h
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
-
-oddebug.o: usbdrv/oddebug.c usbdrv/oddebug.h
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 osccal.o: libs-device/osccal.c
