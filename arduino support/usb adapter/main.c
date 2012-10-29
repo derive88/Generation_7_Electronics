@@ -28,8 +28,12 @@
 #define SPI_SCL     2
 #define SPI_SS      5        // b5:Break
 
-#define HW_CDC_BULK_OUT_SIZE     8
-#define HW_CDC_BULK_IN_SIZE      8
+/* This influences bulk data transfer speed, as bigger packages mean fewer
+   packages for a given amount of data and as such, fewer overhead. However,
+   on my Ubuntu box I get the same speed results for all values of 16 and
+   above. On the other side, there's nothing as pointless as unused RAM. */
+#define HW_CDC_BULK_OUT_SIZE     64
+#define HW_CDC_BULK_IN_SIZE      64
 
 enum {
   SEND_ENCAPSULATED_COMMAND = 0,
