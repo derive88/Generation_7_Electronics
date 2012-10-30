@@ -133,6 +133,12 @@ static PROGMEM char configDescrCDC[] = {
   0,           /* in ms */
 };
 
+typedef struct cdcLineCoding {
+  uint32_t  baud;
+  uint8_t   stopBits;
+  uint8_t   parity;
+  uint8_t   numBits;
+} cdcLineCoding_t;
 
 uchar usbFunctionDescriptor(usbRequest_t *rq) {
   if (rq->wValue.bytes[1] == USBDESCR_DEVICE) {
@@ -146,7 +152,8 @@ uchar usbFunctionDescriptor(usbRequest_t *rq) {
 }
 
 uchar lastTimer0Value; // see osctune.h
-static uchar modeBuffer[7];
+/* unused, but several implementations agree this should be stored */
+static cdcLineCoding_t lineCoding = {115200, 0, 0, 8};
 static uchar sendEmptyFrame;
 static uchar intr3Status; /* used to control interrupt endpoint transmissions */
 
@@ -202,7 +209,8 @@ static uchar iwptr, uwptr;
 /* usbFunctionRead                                                          */
 /*---------------------------------------------------------------------------*/
 uchar usbFunctionRead(uchar *data, uchar len) {
-  memcpy(data, modeBuffer, 7);
+  /* request type GET_LINE_CODING */
+  memcpy(data, &lineCoding, sizeof(lineCoding));
   return 7;
 }
 
@@ -210,7 +218,8 @@ uchar usbFunctionRead(uchar *data, uchar len) {
 /* usbFunctionWrite                                                          */
 /*---------------------------------------------------------------------------*/
 uchar usbFunctionWrite (uchar *data, uchar len) {
-  memcpy( modeBuffer, data, 7 );
+  /* request type SET_LINE_CODING */
+  memcpy(&lineCoding, data, sizeof(lineCoding));
   return 1;
 }
 
