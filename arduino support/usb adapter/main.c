@@ -44,7 +44,6 @@ enum {
   SET_LINE_CODING = 0x20,
   GET_LINE_CODING,
   SET_CONTROL_LINE_STATE,
-  SEND_BREAK
 };
 
 /* USB configuration descriptor */
@@ -83,7 +82,7 @@ static PROGMEM char configDescrCDC[] = {
   4,           /* sizeof(usbDescrCDC_AcmFn): length of descriptor in bytes */
   0x24,        /* descriptor type */
   2,           /* abstract control management functional descriptor */
-  0x06,        /* SEND_BREAK,SET_LINE_CODING,GET_LINE_CODING,SET_CONTROL_LINE_STATE    */
+  0x02,        /* SET_LINE_CODING,GET_LINE_CODING,SET_CONTROL_LINE_STATE */
 
   5,           /* sizeof(usbDescrCDC_UnionFn): length of descriptor in bytes */
   0x24,        /* descriptor type */
@@ -187,9 +186,6 @@ uchar usbFunctionSetup(uchar data[8]) {
 #endif
       SPI_PORT = (SPI_PORT & ~(1 << (SPI_SS + 1))) | ((value & 1) << (SPI_SS + 1));
     }
-    /*  Break => SPI_SS    */
-    else if (rq->bRequest == SEND_BREAK)
-      SPI_PORT = (SPI_PORT & ~(1 << SPI_SS)) | ((value & 1) << SPI_SS);
 
     /*  Prepare bulk-in endpoint to respond to early termination   */
     if ((rq->bmRequestType & USBRQ_DIR_MASK) == USBRQ_DIR_HOST_TO_DEVICE)
