@@ -200,10 +200,10 @@ uchar usbFunctionSetup(uchar data[8]) {
 }
 
 
-/* spi buffer */
-static uchar rx_buf[HW_CDC_BULK_IN_SIZE];
-static uchar tx_buf[HW_CDC_BULK_OUT_SIZE];
-static uchar iwptr, uwptr;
+/* send/receive buffers */
+static uchar tx_buf[HW_CDC_BULK_IN_SIZE];
+static uchar rx_buf[HW_CDC_BULK_OUT_SIZE];
+static uchar txptr = 0, rxptr = 0;
 
 /*---------------------------------------------------------------------------*/
 /* usbFunctionRead                                                          */
@@ -224,9 +224,9 @@ uchar usbFunctionWrite (uchar *data, uchar len) {
 }
 
 void usbFunctionWriteOut(uchar *data, uchar len) {
-  /* host -> spi */
+  /* host => here */
   while (len--)
-    tx_buf[uwptr++] = *data++;
+    rx_buf[rxptr++] = *data++;
 
   /* postpone receiving next data */
   usbDisableAllRequests();
@@ -266,29 +266,40 @@ int main(void) {
   for (;;) {    /* main event loop */
     usbPoll();
 
-    /*  host => device  */
-    if (uwptr != 0 && iwptr == 0) {
+    /*  host => here  */
+    if (txptr == 0) {
       if (usbAllRequestsAreDisabled())
         usbEnableAllRequests();
 
-      while (iwptr < uwptr) {
-        USIDR = tx_buf[iwptr];
+      while (rxptr) {
+#if 1  // normal operations
+        USIDR = rx_buf[txptr];
         USISR = (1 << USIOIF);
         do {
           // clk=250kHz
           _delay_us(1.7);
           USICR |= (1 << USITC);
         } while ( ! (USISR & (1 << USIOIF)));
-        rx_buf[iwptr++] = USIDR;
+        tx_buf[txptr++] = USIDR;
+        rxptr--;
+#else  // echo back for USB debugging
+        tx_buf[txptr] = rx_buf[txptr];
+        txptr++; rxptr--;
+#endif
       }
-      uwptr    = 0;
     }
 
-    /* host <= device */
-    if (usbInterruptIsReady() && (iwptr | sendEmptyFrame)) {
-      usbSetInterrupt(rx_buf, iwptr);
-      sendEmptyFrame = iwptr & HW_CDC_BULK_IN_SIZE;
-      iwptr = 0;
+    /* here => host */
+    if (usbInterruptIsReady()) {
+      /* fill in additional data to be sent here */
+      // while (txptr < HW_CDC_BULK_IN_SIZE)
+      //   tx_buf[txptr++] = 'a';
+
+      if (txptr | sendEmptyFrame) {
+        usbSetInterrupt(tx_buf, txptr);
+        sendEmptyFrame = txptr & HW_CDC_BULK_IN_SIZE;
+        txptr = 0;
+      }
     }
 
 #if USB_CFG_HAVE_INTRIN_ENDPOINT3
