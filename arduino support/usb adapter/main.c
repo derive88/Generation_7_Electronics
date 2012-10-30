@@ -243,7 +243,7 @@ static void hardwareInit(void) {
   usbDeviceConnect();
 }
 
-int main(void) {
+int __attribute__((noreturn)) main(void) {
   hardwareInit();
   usbInit();
 
@@ -314,6 +314,5 @@ int main(void) {
     }
 #endif
   }
-  return 0;
 }
 
