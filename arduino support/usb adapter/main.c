@@ -140,6 +140,16 @@ typedef struct cdcLineCoding {
   uint8_t   numBits;
 } cdcLineCoding_t;
 
+/* ------------------------------------------------------------------------- */
+/* ----------------------------- USB interface ----------------------------- */
+/* ------------------------------------------------------------------------- */
+
+uchar lastTimer0Value; // see osctune.h
+/* unused, but several implementations agree this should be stored */
+static cdcLineCoding_t lineCoding = {115200, 0, 0, 8};
+static uchar sendEmptyFrame;
+static uchar intr3Status; /* used to control interrupt endpoint transmissions */
+
 uchar usbFunctionDescriptor(usbRequest_t *rq) {
   if (rq->wValue.bytes[1] == USBDESCR_DEVICE) {
     usbMsgPtr = (uchar *)usbDescriptorDevice;
@@ -150,16 +160,6 @@ uchar usbFunctionDescriptor(usbRequest_t *rq) {
     return sizeof(configDescrCDC);
   }
 }
-
-uchar lastTimer0Value; // see osctune.h
-/* unused, but several implementations agree this should be stored */
-static cdcLineCoding_t lineCoding = {115200, 0, 0, 8};
-static uchar sendEmptyFrame;
-static uchar intr3Status; /* used to control interrupt endpoint transmissions */
-
-/* ------------------------------------------------------------------------- */
-/* ----------------------------- USB interface ----------------------------- */
-/* ------------------------------------------------------------------------- */
 
 uchar usbFunctionSetup(uchar data[8]) {
   usbRequest_t *rq = (void *)data;
@@ -199,24 +199,17 @@ uchar usbFunctionSetup(uchar data[8]) {
   return 0;
 }
 
-
 /* send/receive buffers */
 static uchar tx_buf[HW_CDC_BULK_IN_SIZE];
 static uchar rx_buf[HW_CDC_BULK_OUT_SIZE];
 static uchar txptr = 0, rxptr = 0;
 
-/*---------------------------------------------------------------------------*/
-/* usbFunctionRead                                                          */
-/*---------------------------------------------------------------------------*/
 uchar usbFunctionRead(uchar *data, uchar len) {
   /* request type GET_LINE_CODING */
   memcpy(data, &lineCoding, sizeof(lineCoding));
   return 7;
 }
 
-/*---------------------------------------------------------------------------*/
-/* usbFunctionWrite                                                          */
-/*---------------------------------------------------------------------------*/
 uchar usbFunctionWrite (uchar *data, uchar len) {
   /* request type SET_LINE_CODING */
   memcpy(&lineCoding, data, sizeof(lineCoding));
@@ -232,6 +225,9 @@ void usbFunctionWriteOut(uchar *data, uchar len) {
   usbDisableAllRequests();
 }
 
+/* ------------------------------------------------------------------------- */
+/* ----------------------------- Application ------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 static void hardwareInit(void) {
   wdt_disable();
