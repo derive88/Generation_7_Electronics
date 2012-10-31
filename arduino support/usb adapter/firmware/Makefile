@@ -64,10 +64,6 @@ all: $(BUILDDIR) $(TARGET) $(BUILDDIR)/$(PROJECT).elf \
 program: $(PROJECT).hex
 	$(AVRDUDE) $(AVRDUDEFLAGSFAST) -U flash:w:$^
 
-# For fuses, see http://www.engbedded.com/fusecalc/
-fuses:
-	$(AVRDUDE) $(AVRDUDEFLAGSSLOW) -U lfuse:w:0xE1:m -U hfuse:w:0xDC:m
-
 ## Compile
 .SUFFIXES:
 .SUFFIXES: .c .S .o
