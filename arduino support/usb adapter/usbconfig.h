@@ -182,7 +182,9 @@ section at the end of this file).
 extern void calibrateOscillator(void);
 #endif
 #define USB_RESET_HOOK(resetStarts)  if(!resetStarts){cli(); calibrateOscillator(); sei();}
+#ifndef BOOTLOADER
 #include "libs-device/osctune.h"
+#endif
 /* #ifdef __ASSEMBLER__
  * macro myAssemblerMacro
  *     in      YL, TCNT0

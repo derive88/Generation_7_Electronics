@@ -143,7 +143,6 @@ typedef struct cdcLineCoding {
 /* ----------------------------- USB interface ----------------------------- */
 /* ------------------------------------------------------------------------- */
 
-uchar lastTimer0Value; // see osctune.h
 /* unused, but several implementations agree this should be stored */
 static cdcLineCoding_t lineCoding = {115200, 0, 0, 8};
 static uchar sendEmptyFrame;
