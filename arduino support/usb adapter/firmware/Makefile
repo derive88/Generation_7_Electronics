@@ -1,5 +1,5 @@
 ###############################################################################
-# Makefile for the project spitiny
+# Makefile for Generation 7 Electronics USB adapter
 ###############################################################################
 
 ## General Flags
@@ -10,12 +10,14 @@ MCU = attiny45
 
 F_CPU = 16500000UL
 
+BUILDDIR = build
+
 AVRDUDE = avrdude
 AVRDUDEFLAGS = -c stk500v2 -p $(MCU) -P /dev/ttyACM0
 AVRDUDEFLAGSFAST = $(AVRDUDEFLAGS) -B 1
 AVRDUDEFLAGSSLOW = $(AVRDUDEFLAGS) -B 5
 
-TARGET = $(PROJECT).elf
+TARGET = $(PROJECT).hex
 CC = avr-gcc
 
 ## Options common to compile, link and assembly rules
@@ -36,7 +38,6 @@ ASMFLAGS += -x assembler-with-cpp -Wa,-gdwarf2
 LDFLAGS = $(COMMON)
 LDFLAGS += 
 
-
 ## Intel Hex file production flags
 HEX_FLASH_FLAGS = -R .eeprom -R .fuse -R .lock -R .signature
 
@@ -44,19 +45,20 @@ HEX_EEPROM_FLAGS = -j .eeprom
 HEX_EEPROM_FLAGS += --set-section-flags=.eeprom="alloc,load"
 HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
-
 ## Include Directories
-INCLUDES =
 INCLUDES = -I".." -I"../usbdrv" -I"../libs-device"
 
 ## Objects that must be built in order to link
-OBJECTS = main.o usbdrv.o usbdrvasm.o osccal.o 
+OBJECTS = main.o usbdrv.o usbdrvasm.o osccal.o
+BUILDOBJECTS = $(addprefix $(BUILDDIR)/,$(OBJECTS))
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
 
+
 ## Build
-all: $(TARGET) $(PROJECT).hex $(PROJECT).eep $(PROJECT).lss size
+all: $(BUILDDIR) $(TARGET) $(BUILDDIR)/$(PROJECT).elf \
+     $(BUILDDIR)/$(PROJECT).eep $(BUILDDIR)/$(PROJECT).lss size
 
 ## Program
 program: $(PROJECT).hex
@@ -67,36 +69,41 @@ fuses:
 	$(AVRDUDE) $(AVRDUDEFLAGSSLOW) -U lfuse:w:0xE1:m -U hfuse:w:0xDC:m
 
 ## Compile
-main.o: main.c ../usbdrv/usbdrv.h
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+.SUFFIXES:
+.SUFFIXES: .c .S .o
+$(shell mkdir -p $(BUILDDIR))
 
-usbdrvasm.o: ../usbdrv/usbdrvasm.S ../usbdrv/usbdrv.h ../usbconfig.h
-	$(CC) $(INCLUDES) $(ASMFLAGS) -c  $<
+$(BUILDDIR)/main.o: main.c ../usbdrv/usbdrv.h
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $< -o $@
 
-usbdrv.o: ../usbdrv/usbdrv.c ../usbdrv/usbdrv.h ../usbconfig.h
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+$(BUILDDIR)/usbdrvasm.o: ../usbdrv/usbdrvasm.S ../usbdrv/usbdrv.h ../usbconfig.h
+	$(CC) $(INCLUDES) $(ASMFLAGS) -c  $< -o $@
 
-osccal.o: ../libs-device/osccal.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+$(BUILDDIR)/usbdrv.o: ../usbdrv/usbdrv.c ../usbdrv/usbdrv.h ../usbconfig.h
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $< -o $@
+
+$(BUILDDIR)/osccal.o: ../libs-device/osccal.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $< -o $@
 
 ##Link
-$(TARGET): $(OBJECTS)
-	 $(CC) $(LDFLAGS) $(OBJECTS) $(LINKONLYOBJECTS) $(LIBDIRS) $(LIBS) -o $(TARGET)
+.SUFFIXES: .elf .eep .lss .hex
+$(BUILDDIR)/%.elf: $(BUILDOBJECTS)
+	$(CC) $(LDFLAGS) $(BUILDOBJECTS) $(LINKONLYOBJECTS) $(LIBDIRS) $(LIBS) -o $@
 
-%.hex: $(TARGET)
-	avr-objcopy -O ihex $(HEX_FLASH_FLAGS)  $< $@
+%.hex: $(BUILDDIR)/%.elf
+	avr-objcopy -O ihex $(HEX_FLASH_FLAGS) $< $@
 
-%.eep: $(TARGET)
+$(BUILDDIR)/%.eep: $(BUILDDIR)/%.elf
 	-avr-objcopy $(HEX_EEPROM_FLAGS) -O ihex $< $@ || exit 0
 
-%.lss: $(TARGET)
+$(BUILDDIR)/%.lss: $(BUILDDIR)/%.elf
 	avr-objdump -h -S $< > $@
 
-size: ${TARGET}
+size: $(BUILDDIR)/$(PROJECT).elf
 	@echo
-	@avr-size -C --mcu=${MCU} ${TARGET}
+	avr-size -C --mcu=$(MCU) $(BUILDDIR)/$(PROJECT).elf
 
 ## Clean target
 .PHONY: clean
 clean:
-	-rm -f $(OBJECTS) $(PROJECT).elf $(PROJECT).hex $(PROJECT).eep $(PROJECT).lss
+	-rm -rf $(BUILDDIR) $(TARGET)
