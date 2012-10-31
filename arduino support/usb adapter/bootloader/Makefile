@@ -3,10 +3,10 @@
 ###############################################################################
 
 ## General Flags
-PROJECT = firmware
+PROJECT = bootloader
 
-MCU = attiny45
-#MCU = attiny85
+#MCU = attiny45
+MCU = attiny85
 
 F_CPU = 16500000UL
 
@@ -24,7 +24,7 @@ CC = avr-gcc
 COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
-CFLAGS = $(COMMON) -DFIRMWARE
+CFLAGS = $(COMMON) -DBOOTLOADER
 CFLAGS += -Wall -gdwarf-2 -DF_CPU=$(F_CPU) -Os -fsigned-char
 CFLAGS += -fno-move-loop-invariants
 CFLAGS += -fno-tree-scev-cprop
