@@ -3,7 +3,7 @@
 ###############################################################################
 
 ## General Flags
-PROJECT = spitiny
+PROJECT = firmware
 
 MCU = attiny45
 #MCU = attiny85
@@ -47,7 +47,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 ## Include Directories
 INCLUDES =
-INCLUDES = -I"." -I"usbdrv" -I"libs-device"
+INCLUDES = -I".." -I"../usbdrv" -I"../libs-device"
 
 ## Objects that must be built in order to link
 OBJECTS = main.o usbdrv.o usbdrvasm.o osccal.o 
@@ -67,16 +67,16 @@ fuses:
 	$(AVRDUDE) $(AVRDUDEFLAGSSLOW) -U lfuse:w:0xE1:m -U hfuse:w:0xDC:m
 
 ## Compile
-main.o: main.c usbdrv/usbdrv.h
+main.o: main.c ../usbdrv/usbdrv.h
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
-usbdrvasm.o: usbdrv/usbdrvasm.S usbdrv/usbdrv.h usbconfig.h
+usbdrvasm.o: ../usbdrv/usbdrvasm.S ../usbdrv/usbdrv.h ../usbconfig.h
 	$(CC) $(INCLUDES) $(ASMFLAGS) -c  $<
 
-usbdrv.o: usbdrv/usbdrv.c usbdrv/usbdrv.h usbconfig.h
+usbdrv.o: ../usbdrv/usbdrv.c ../usbdrv/usbdrv.h ../usbconfig.h
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
-osccal.o: libs-device/osccal.c
+osccal.o: ../libs-device/osccal.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 ##Link
