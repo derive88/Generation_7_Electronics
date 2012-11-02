@@ -1,12 +1,12 @@
 v 20110115 2
-C 38800 43400 1 0 0 ATMEGA644P-1.sym
+C 38800 43400 1 0 0 ATmega644_1.sym
 {
 T 40000 47900 5 10 1 1 0 0 1
 refdes=U1
 T 42026 47300 5 10 0 0 0 0 1
 footprint=DIP40_1
 T 40500 43500 5 10 1 1 0 5 1
-device=ATMEGA644P
+device=ATmega644
 }
 C 53800 48400 1 0 0 pololustepper-1.sym
 {

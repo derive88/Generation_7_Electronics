@@ -1,13 +1,12 @@
 /*
  * Name: main.c
- * Project: AVR USB driver for CDC-SPI on Low-Speed USB
- *              for ATtiny45/85
- * Author: Osamu Tamura
- * Adjusted for Generation 7 Electronics
- * Creation Date: 2010-01-10
+ * Parts from Project: AVR USB driver for CDC-SPI by Osamu Tamura
+ * Parts from Project: USBaspLoader by Christian Starkjohann
+ * Joined for Generation 7 Electronics by Markus Hitter
  * Copyright: (c) 2010 by Recursion Co., Ltd.
+ * Copyright: (c) 2007 by OBJECTIVE DEVELOPMENT Software GmbH
  * Copyright: (c) 2012 by Markus Hitter <mah@jump-ing.de>
- * License: Proprietary, free under certain conditions. See Documentation.
+ * License: GPLv3, also see Documentation.
  */
 
 #include <string.h>
@@ -18,6 +17,8 @@
 #include <util/delay.h>
 
 #include "usbdrv.h"
+
+static void leaveBootloader() __attribute__((__noreturn__));
 
 // ATtiny45/85
 #define SPI_DDR     DDRB
@@ -35,15 +36,17 @@
 #define HW_CDC_BULK_OUT_SIZE     64
 #define HW_CDC_BULK_IN_SIZE      64
 
+/* Request constants used by USBasp */
 enum {
-  SEND_ENCAPSULATED_COMMAND = 0,
-  GET_ENCAPSULATED_RESPONSE,
-  SET_COMM_FEATURE,
-  GET_COMM_FEATURE,
-  CLEAR_COMM_FEATURE,
-  SET_LINE_CODING = 0x20,
-  GET_LINE_CODING,
-  SET_CONTROL_LINE_STATE,
+  USBASP_FUNC_CONNECT = 1,
+  USBASP_FUNC_DISCONNECT,
+  USBASP_FUNC_TRANSMIT,
+  USBASP_FUNC_READFLASH,
+  USBASP_FUNC_ENABLEPROG,
+  USBASP_FUNC_WRITEFLASH,
+  USBASP_FUNC_READEEPROM,
+  USBASP_FUNC_WRITEEEPROM,
+  USBASP_FUNC_SETLONGADDRESS /* = 9 */
 };
 
 /* USB configuration descriptor */

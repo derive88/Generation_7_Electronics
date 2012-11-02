@@ -22,7 +22,7 @@ T 750 4250 3 6 1 1 0 1 1
 pinlabel=MISO
 }
 T 1700 100 5 10 1 1 0 5 1
-device=ATMEGA644P
+device=ATmega644
 P 700 1000 400 1000 1 0 1
 {
 T 750 1050 3 8 1 1 0 1 1
