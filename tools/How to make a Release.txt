@@ -33,8 +33,8 @@ Each part of Gen7 (Board, Endstop, etc.) gets its own release numbering.
    or copy all the contents back from the new page.
 
 6. Edit one of the pages to find the edit for the templates "Gen7Endstop",
-   "Gen7Board" and "Generation7Electronics". On bugfix releases, always
-   include only the last bugfix version.
+   "Gen7Board-AVR", "Gen7Board-ARM" and "Generation7Electronics". On bugfix
+   releases, always include only the last bugfix version.
 
 7. Edit the "Individual Components" section of the main page to link to the
    new versions. This is
