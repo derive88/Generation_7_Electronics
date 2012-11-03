@@ -10,7 +10,7 @@ footprint=ACY300_1
 }
 C 40000 37400 1 0 0 gnd-1.sym
 T 38100 35400 9 14 1 0 0 1 6
-ExtensionBoard-USB
+ExtensionBoard-USB-A
 (c) 2012 Traumflug
 
 Creative Commons BY-NC-SA 3.0 Licence
