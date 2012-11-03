@@ -1092,8 +1092,8 @@ N 48600 29100 48600 29700 4
 N 48600 30600 48600 30800 4
 N 48600 30800 49000 30800 4
 T 51700 28200 9 24 1 0 0 1 6
-(c) 2011 Traumflug
-(c) 2010 Traumflug, Jacky2k
+(c) 2011 - 2012 Traumflug
+(c) 2010            Traumflug, Jacky2k
 
 Creative Commons BY-NC-SA 3.0 Licence
 
@@ -1308,3 +1308,16 @@ footprint=RCY3mm5
 T 41300 30000 5 10 1 1 90 0 1
 value=100 uF
 }
+B 19700 36400 16500 21600 8 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
+B 37900 49800 11400 8100 8 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
+B 49600 35200 11800 18100 8 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
+B 36300 35900 9500 6100 8 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
+T 49700 33800 8 30 1 0 0 0 2
+All red rectangles show areas which
+are not yet checked for ARM compatibility.
+T 33300 33600 8 20 1 0 0 0 1
+obsolete?
+T 37300 33800 8 20 1 0 90 0 1
+obsolete?
+T 45200 29900 8 20 1 0 90 0 1
+obsolete?
