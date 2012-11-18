@@ -43,7 +43,7 @@ N 48200 40000 48400 40000 4
 C 38000 40900 1 0 0 USB.sym
 {
 T 39200 42900 5 10 1 1 0 0 1
-value=USB
+value=USB_B
 T 38000 40900 5 10 0 0 0 0 1
 footprint=USB_B
 T 38100 42900 5 10 1 1 0 0 1
@@ -57,6 +57,8 @@ T 46900 40400 5 10 1 1 0 3 1
 refdes=U2
 T 46901 40600 5 10 0 0 0 3 1
 footprint=SO20_1
+T 46400 35900 5 10 1 1 0 0 1
+value=MCP2200
 }
 C 42100 39700 1 180 0 crystal-1.sym
 {
@@ -103,7 +105,7 @@ refdes=TxLED
 T 43400 37800 5 10 0 1 0 0 1
 footprint=LED3_1
 T 44000 37000 5 10 0 0 270 0 1
-description=green
+value=green
 T 44200 37000 5 10 0 0 270 0 1
 symversion=0.1
 }
@@ -123,7 +125,7 @@ refdes=RxLED
 T 44300 37800 5 10 0 1 0 0 1
 footprint=LED3_1
 T 44900 37000 5 10 0 0 270 0 1
-description=green
+value=green
 T 45100 37000 5 10 0 0 270 0 1
 symversion=0.1
 }
