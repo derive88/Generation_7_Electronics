@@ -63,6 +63,10 @@ else  # electronics designs
   echo "Creating ${PART} ${RELEASE} schematic PDFs ..."
   for F in "${PART}"*.sch; do
     PS_DOC="${DOC_DIR}/${F%.sch} ${RELEASE} Schematic.ps"
+    # Peter Brett describing the new gschem printing infrastructure 
+    # (2012-11-25 on geda-users mailing list, committed after gschem 1.8):
+    #    $(GSCHEM) -p -c '(print-paper "na_d")' -odesign.pdf \
+    #              -s${GEDA_SCHEME_DIR}/print.scm design.sch
     gschem -p -o "${PS_DOC}" -s "${BASE_DIR}/tools/print.scm" "${F}" >/dev/null
     cd "${DOC_DIR}"
     ps2pdf "${PS_DOC}"
