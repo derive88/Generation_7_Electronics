@@ -1114,10 +1114,10 @@ Layer(7 "unused")
 )
 Layer(8 "unused")
 (
-	Text[338410 223087 0 101 "http://reprap.org/wiki/Gen7 ExtensionBoard USB" ""]
 	Text[418437 229201 0 121 "(c) 2012 Traumflug" ""]
 	Text[408685 237697 0 121 "Creative Commons" ""]
 	Text[408685 245197 0 121 "BY-NC-SA 3.0 Licence" ""]
+	Text[333410 223087 0 101 "http://reprap.org/wiki/Gen7 ExtensionBoard USB B" ""]
 )
 NetList()
 (
